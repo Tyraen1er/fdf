@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
+/*   Updated: 2017/03/09 07:38:54 by eferrand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx.h"
 #include <stdio.h>
 #include "libft.h"
@@ -10,48 +22,6 @@ int		coefd(int xa, int ya, int xb, yb)
 	(xb - xa) / (yb - ya)
 }
 */
-int		*ft_convert(char *map, int a)
-{
-	int		*coo;
-	char	*tmp;
-
-	tmp = map;
-	while (*map)
-	{
-		if (*map == '\t' || *map == ' ' || *map == '\n')
-			--a;
-		++map;
-	}
-// Salut Manu, cest la que tu  tes arreté, et bah ça marche pas ! Bon courage !
-	coo = (int[a]){0};
-/*
-	while (*map && (x = -1))
-	{
-		while (*map == ' ' || *map == '\t')
-			++map;
-		if (*map && *map != '+' && *map != '-' && !(ft_isdigit))
-			return (-1);
-	}
-*/
-	return (0);
-}
-
-int		ft_draw(int *coo)
-{
-	return (0);
-}
-
-int		ft_display(int *coo)
-{
-	void	*mlx;
-	void	*win;
-	
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
-//	mlx_key_hook(win, my_key_fct, 0);
-	if (-1 == (ft_draw(int *coord)))
-	mlx_loop(mlx);
-}
 
 int		my_key_fct(int keycode, void *param)
 {
@@ -62,6 +32,56 @@ int		my_key_fct(int keycode, void *param)
 	return (0);
 }
 
+int		*ft_convert(char *map, int a)
+{
+	int		*coo;
+	char	*tmp;
+
+	tmp = map;
+	while (*tmp)
+	{
+		if (*tmp == '\t' || *tmp == ' ' || *tmp == '\n')
+			++a;
+		++tmp;
+	}
+	coo = (int*)malloc(sizeof(int) * a);
+	a = 0;
+	while (*map)
+	{
+		if (*map != ' ' && *map != '\t' && *map != '\n' &&
+				*map != '+' && *map != '-' && !ft_isdigit(*map))
+			return (NULL);
+		while (*map == ' ' || *map == '\t' || *map == '\n')
+			++map;
+		if (*map)
+			coo[a++] = ft_atoi(map);
+		map = (*map == '+' || *map == '-') ? map + 1 : map;
+		while (ft_isdigit(*map))
+			++map;
+	}
+	return (coo);
+}
+/*
+int		ft_draw(int *coo)
+{
+	return (0);
+}
+*/
+int		ft_display(int *coo)
+{
+	void	*mlx;
+	void	*win;
+	
+	if (!coo)
+		return (0);
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
+	mlx_key_hook(win, my_key_fct, 0);
+//	if (-1 == (ft_draw(int *coo)))
+	mlx_loop(mlx);
+	return (1);
+}
+
 int main(int argc, char **argv)
 {
 	int		fd;
@@ -70,8 +90,8 @@ int main(int argc, char **argv)
 	char	*map;
 	char	*tmp;
 
-	*map = 0;
-	if (!(map = NULL) && argc != 2)
+	map = NULL;
+	if (argc != 2)
 	{
 		ft_putstr("Le programme a besoin d'un seul fichier pour etre fonctionnel.\n");
 		return (0);
