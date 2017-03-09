@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/09 07:38:54 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/09 23:40:01 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		*ft_convert(char *map, int a)
 	int		*coo;
 	char	*tmp;
 
+	printf("B\n");
 	tmp = map;
 	while (*tmp)
 	{
@@ -59,19 +60,24 @@ int		*ft_convert(char *map, int a)
 		while (ft_isdigit(*map))
 			++map;
 	}
+	printf("C\n");
 	return (coo);
 }
+
 /*
 int		ft_draw(int *coo)
 {
+	printf("G\n");
 	return (0);
 }
 */
+
 int		ft_display(int *coo)
 {
 	void	*mlx;
 	void	*win;
 	
+	printf("E\n");
 	if (!coo)
 		return (0);
 	mlx = mlx_init();
@@ -79,6 +85,7 @@ int		ft_display(int *coo)
 	mlx_key_hook(win, my_key_fct, 0);
 //	if (-1 == (ft_draw(int *coo)))
 	mlx_loop(mlx);
+	printf("F\n");
 	return (1);
 }
 
@@ -90,10 +97,10 @@ int main(int argc, char **argv)
 	char	*map;
 	char	*tmp;
 
-	map = NULL;
+	map = "";
 	if (argc != 2)
 	{
-		ft_putstr("Le programme a besoin d'un seul fichier pour etre fonctionnel.\n");
+		ft_putstr("usage: ./fdf fichier_map\n");
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
@@ -104,6 +111,7 @@ int main(int argc, char **argv)
 		ft_memdel((void *)&map);
 		map = tmp;
 	}
+	printf("A\n");
 	if (a == -1 || !(ft_display(ft_convert(map, a))))
 		return (0);
 	return (0);

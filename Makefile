@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/01/24 02:42:41 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/09 23:40:44 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ LINK			:=	$(LIB_FT_LINK) $(LIB_MLX_LINK)
 
 # compiler and flags
 CC				:=	gcc
-CFLAGS			:=	-Wall -Werror -Wextra
+CFLAGS			:=	-Wall -Werror -Wextra -g
 
 all: obj libs $(NAME)
 
