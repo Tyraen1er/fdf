@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/09 23:40:01 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/11 01:40:37 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include "libft.h"
 #include <fcntl.h>
+#include <math.h>
 
 // mlx_pixel_put(mlx, win, 200, 200, 0x00FFFFFF);
 /*
@@ -65,9 +66,35 @@ int		*ft_convert(char *map, int a)
 }
 
 /*
-int		ft_draw(int *coo)
+int		ft_drawline(int xa, int xb, int ya, int yb)
 {
-	printf("G\n");
+	int		f;
+	int		xav;
+	int		yav;
+	int		x;
+	int		y;
+
+	x = xa;
+	y = ya;
+	xav = (xa < xb) ? 1 : -1;
+	yav = (ya < yb) ? 1 : -1;
+	if (xb == xa)
+	{
+		f = xb;
+		xb = yb;
+		yb = xb;
+		f = xa;
+		xa = ya;
+		ya = f;
+	}
+	f = (xb - xa) / (yb - ya);
+	while ((xav == 1 && x < xb) || (xav == -1 && x > xb))
+	{
+		if (fabs(((xb - xa) * x) / (yb - ya)))
+			y += yav;
+		mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
+		x += xav;
+	}
 	return (0);
 }
 */
