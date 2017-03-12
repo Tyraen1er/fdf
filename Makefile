@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/03/09 23:40:44 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/11 06:49:51 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME			:=	fdf
 # base dirs
 SRC_DIR			:=	./src
 INC_DIR			:=	./includes
-LIB_DIR			:=	./lib
+LIB_DIR			:=	./libs
 OBJ_DIR			:=	./obj
 
 # files to compile
@@ -25,7 +25,7 @@ OBJ_FILES		:= $(addprefix $(OBJ_DIR)/,$(FILE_LIST:.c=.o))
 
 # libraries
 LIB_FT			:=	$(LIB_DIR)/libft
-LIB_FT_INC		:=	-I $(LIB_FT)/includes
+LIB_FT_INC		:=	-I$(LIB_FT)/includes/
 LIB_FT_LINK		:=	-L $(LIB_FT) -l ft
 
 LIB_MLX			:=	$(LIB_DIR)/minilibx_macos
@@ -38,7 +38,7 @@ LINK			:=	$(LIB_FT_LINK) $(LIB_MLX_LINK)
 
 # compiler and flags
 CC				:=	gcc
-CFLAGS			:=	-Wall -Werror -Wextra -g
+CFLAGS			:=	-Wall -Werror -Wextra
 
 all: obj libs $(NAME)
 
@@ -51,13 +51,13 @@ libs:
 
 # linking rule: executable NAME needs OBJ_FILES to link
 $(NAME): $(OBJ_FILES)
-	$(CC) $(LINK) $(OBJ_FILES) -o $(NAME)
+	echo $(CC) $(LINK) $(OBJ_FILES) -o $(NAME)
 
 # compiler rule: each .o file in OBJ_DIR needs a .c file in SRC_DIR
 # $< -- input file (.c)
 # $@ -- output file (.o)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -c $(INCLUDES) $(SRC_DIR)/$(FILE_LIST)
 
 clean:
 	rm -rf $(OBJ_DIR)
