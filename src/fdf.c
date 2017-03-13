@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/11 08:03:43 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/13 01:39:06 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,21 @@ void	ft_drawline(void *mlx, void *win, int *xabyab)
 
 /*
 ** a[0] = number elem per line
+** xa = xabyab[0]
+** xb = xabyab[1]
+** ya = xabyab[2]
+** yb = xabyab[3]
 */
 
 int		ft_display(int *coo, int *a)
 {
 	int		c;
+	int		pdf;
 	int		*xabyab;
 	void	*mlx;
 	void	*win;
 
+	pdf = 200;
 	c = -1;
 	a[0] /= a[1];
 	if (!coo)
@@ -105,10 +111,16 @@ int		ft_display(int *coo, int *a)
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
 	mlx_key_hook(win, my_key_fct, 0);
-	while (++c < a[0] &&)
-	{
-		ft_drawline(mlx, win, xabyab);
-	}
+	while (a[1]--)
+		while (++c < a[0])
+		{
+// equation position point avec point de fuite inclu
+			if (a[1])
+			{
+				ft_drawline(mlx, win, xabyab);
+			}
+			ft_drawline(mlx, win, xabyab);
+		}
 	mlx_loop(mlx);
 	return (1);
 }
