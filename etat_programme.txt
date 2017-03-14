@@ -1,0 +1,6 @@
+	 ft_convert :		OK
+	ft_drawline :		test vertical a faire
+		writing :		who know ?
+my_key_fonction :		aucune utilité pour le moment
+	 ft_display :		OK
+		   main :		OK

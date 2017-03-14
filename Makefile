@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/03/11 06:49:51 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/14 05:18:31 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,13 +51,13 @@ libs:
 
 # linking rule: executable NAME needs OBJ_FILES to link
 $(NAME): $(OBJ_FILES)
-	echo $(CC) $(LINK) $(OBJ_FILES) -o $(NAME)
+	$(CC) $(LINK) $(OBJ_FILES) -o $(NAME)
 
 # compiler rule: each .o file in OBJ_DIR needs a .c file in SRC_DIR
 # $< -- input file (.c)
 # $@ -- output file (.o)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $(INCLUDES) $(SRC_DIR)/$(FILE_LIST)
+	$(CC) $(CFLAGS) -c $(INCLUDES) $(SRC_DIR)/$(FILE_LIST) -o $(OBJ_FILES)
 
 clean:
 	rm -rf $(OBJ_DIR)
