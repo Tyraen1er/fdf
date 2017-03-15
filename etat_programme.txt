@@ -4,3 +4,12 @@
 my_key_fonction :		aucune utilité pour le moment
 	 ft_display :		OK
 		   main :		OK
+
+Ordre programme
+
+main -> ft_display (ft_convert)
+ft_display->writing
+writing->drawline
+ft_display->my_key_fct
+my_key_fct->writing
+writing->drawline
