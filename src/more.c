@@ -1,4 +1,16 @@
-ft_atoihex(char	*nb)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   more.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
+/*   Updated: 2017/03/16 04:40:22 by eferrand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_atoihex(const char *nb)
 {
 	int		ret;
 	int		a;
@@ -8,44 +20,52 @@ ft_atoihex(char	*nb)
 	b = 0;
 	a = ft_strlen(nb);
 	while (a--)
-		ret = (nb[a] - '0') << (b * 4);
+	{
+		if ('0' <= nb[a] && nb[a] <= '9')
+			ret += (nb[a] - '0') << (b * 4);
+		if ('a' <= nb[a] && nb[a] <= 'f')
+			ret += (nb[a] - 'a' + 10) << (b * 4);
+		if ('A' <= nb[a] && nb[a] <= 'F')
+			ret += (nb[a] - 'A' + 10) << (b * 4);
+		++b;
+	}
 	return (ret);
 }
 
 void	ft_param(char *commande)
 {
 	static int	*color = NULL;
-
-	if ()
 }
 
 int		my_key_fct(int keycode, void *pdf)
 {
-	static char		*commande;
-	int				a;
+	static char		commande[20];
+	static int		a = 0;
 
-	a = 0;
 	if (keycode == 53)
 		exit(3);
 	printf("il se passe quelquechose\n%d\n", keycode);
-	if (keycode == 123)
-		pdf[0] -= 10;
-	if (keycode == 124)
-		pdf[0] += 10;
-	if (keycode == 125)
-		pdf[1] -= 10;
-	if (keycode == 126)
-		pdf[1] += 10;
-	if (keycode == :)
+	((int*)pdf)[0] -= (keycode == 123) ? 10 : 0;
+	((int*)pdf)[0] += (keycode == 124) ? 10 : 0;
+	((int*)pdf)[1] -= (keycode == 125) ? 10 : 0;
+	((int*)pdf)[1] += (keycode == 126) ? 10 : 0;
+	if (*commande == '/' || keycode == 44)
 	{
-		while (keycode != entree)
-			commande[a++] = keycode;
-		ft_param(commande);
+		if (keycode == 44 && a)
+		{
+			ft_bzero(commande, 20);
+			*commande = '/';
+		}
+// entree = 36
+		if (keycode != 36)
+			commande[a++] = translator(keycode);
+		if (keycode == 36)
+			ft_param(commande);
 	}
 	return (0);
 }
 
-void    ft_drawline(void *mlx, void *win, int *xabyab, int color)
+void    ft_drawline(void *mlx, void *win, int *xabyab, int *color)
 {
 	int     xav;
 	int     yav;
@@ -53,7 +73,6 @@ void    ft_drawline(void *mlx, void *win, int *xabyab, int color)
 	int     y;
 	static int		clr;
 
-// choose color
 	if (!color)
 		*color = 0x00FFFFFF;
 	x = xabyab[0];

@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/14 07:03:40 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/16 06:05:11 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		*ft_convert(char *map, int *a)
 ** pdf[1] = poitnde fuite sur l ordonnée Y
 */
 
-void		writing(int *b)
+void		writing(int *a, int *b, int *coo, int *pdf)
 {
 	while (b[1]--)
 		while (++b[0] < a[0])

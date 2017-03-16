@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/03/14 05:18:31 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/16 05:35:47 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ LIB_DIR			:=	./libs
 OBJ_DIR			:=	./obj
 
 # files to compile
-FILE_LIST		:=	fdf.c
+FILE_LIST		:=	fdf.c \
+					more.c \
+					translation.c
 OBJ_FILES		:= $(addprefix $(OBJ_DIR)/,$(FILE_LIST:.c=.o))
 
 # libraries
@@ -57,7 +59,7 @@ $(NAME): $(OBJ_FILES)
 # $< -- input file (.c)
 # $@ -- output file (.o)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $(INCLUDES) $(SRC_DIR)/$(FILE_LIST) -o $(OBJ_FILES)
+	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
