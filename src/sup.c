@@ -12,19 +12,19 @@ void    ft_bzero(void *tab, size_t n)
 ** fst[1] = taille y
 ** a = position ligne matrice fst
 ** b = position colone matrice fst
+** c = pointeur de multiplication
 */
 
 int		*matrice_multi(int *fst, int *scd)
 {
 	int	*ret;
 	int	*tmp;
+	int	x;
+	int	y;
 	int	a;
-	int	b;
-	int	c;
 
-	ret = 0;
-	b = -1;
-	c = 0;
+	y = -1;
+	a = 0;
 	if (fst[0] != scd[1])
 		return (NULL);
 	ret = (int*)malloc(sizeof(int) * (fst[1] * scd[0] + 2));
@@ -32,14 +32,20 @@ int		*matrice_multi(int *fst, int *scd)
 	ret[0] = scd[0];
 	ret[1] = fst[1];
 	tmp = &ret[2];
-	while (++b < fst[1] && (a = - 1))
+	while (++y < fst[1] && (x = -1))
 	{
-		while (a < scd[0] && (c = - 1))
+		while (++x < scd[0] && (a = -1))
 		{
-			while (++c < scd[0])
+			printf("debut case\n");
+			while (++a < scd[0])
 			{
-				ret[] = fst[] * scd[];
+				printf("\nx = %d\ny = %d\na = %d\n", x, y, a);
+				printf("%d * %d\n" ,fst[a + y + 2] , scd[a * scd[0] + x + 2]);
+				printf("case 1 = %d\ncase 2 = %d\n", a + y * fst[0] + 2, a * scd[0] + x + 2);
+				printf("%d, ", fst[a + y * fst[0]] * scd[a * scd[0] + x]);
+				ret[2 + x + y * scd[0]] = fst[a + y * fst[0] + 2] * scd[2 + a * scd[0] + x];
 			}
+			printf("\nune case finie\n\n");
 		}
 	}
 	printf("fin multiplication\n\n");
@@ -56,23 +62,23 @@ int main()
 	fst[0] = 2;
 	fst[1] = 3;
 	
-	fst[2] = 1;
-	fst[3] = 1;
-	fst[4] = 1;
-	fst[5] = 1;
+	fst[2] = 3;
+	fst[3] = 4;
+	fst[4] = 2;
+	fst[5] = 7;
 	fst[6] = 1;
-	fst[7] = 1;
+	fst[7] = 9;
 
 
 	scd[0] = 3;
 	scd[1] = 2;
 	
-	scd[2] = 1;
-	scd[3] = 1;
+	scd[2] = 2;
+	scd[3] = 7;
 	scd[4] = 1;
-	scd[5] = 1;
-	scd[6] = 1;
-	scd[7] = 1;
+	scd[5] = 5;
+	scd[6] = -3;
+	scd[7] = 8;
 
 	ret = matrice_multi(fst, scd);
 	a = 0;

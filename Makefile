@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/03/16 05:35:47 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/18 07:45:03 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJ_DIR			:=	./obj
 # files to compile
 FILE_LIST		:=	fdf.c \
 					more.c \
+					sup.c \
 					translation.c
 OBJ_FILES		:= $(addprefix $(OBJ_DIR)/,$(FILE_LIST:.c=.o))
 
