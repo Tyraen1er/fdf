@@ -56,8 +56,8 @@ int		*matrice_multi(int *fst, int *scd)
 int main()
 {
 	int	a;
-	int	fst[8];
-	int	scd[8];
+	int	fst[11];
+	int	scd[11];
 	int	*ret;
 
 	fst[0] = 3;
@@ -69,9 +69,9 @@ int main()
 	fst[5] = 2;
 	fst[6] = 7;
 	fst[7] = 2;
-	fst[7] = 1;
-	fst[7] = 9;
-	fst[7] = 6;
+	fst[8] = 1;
+	fst[9] = 9;
+	fst[10] = 6;
 
 
 	scd[0] = 3;
@@ -83,9 +83,9 @@ int main()
 	scd[5] = 5;
 	scd[6] = -3;
 	scd[7] = 8;
-	scd[7] = 18;
-	scd[7] = 1;
-	scd[7] = -4;
+	scd[8] = 18;
+	scd[9] = 1;
+	scd[10] = -4;
 
 	ret = matrice_multi(fst, scd);
 	a = 0;
