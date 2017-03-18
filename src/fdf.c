@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/16 06:05:11 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/18 07:42:53 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,24 @@
 int		*ft_convert(char *map, int *a)
 {
 	int		b;
-	int		*coo;
+	int		**coo;
 	char	*tmp;
 
-	tmp = map -1;
+	tmp = map - 1;
 	while (*++tmp)
 		if (*tmp == '\t' || *tmp == ' ' || (*tmp == '\n' && ++a[1]))
 			++a[0];
-	coo = (int*)malloc(sizeof(int) * a[0]);
+	coo = (int**)malloc(sizeof(int*) * a[0]);
 	b = 0;
 	while (*map)
 	{
+		if (*map == ' ' || *map == '\t' || *map == '\n')
+			++map;
 		if (*map != ' ' && *map != '\t' && *map != '\n' &&
 				*map != '+' && *map != '-' && !ft_isdigit(*map))
 			return (NULL);
-		while (*map == ' ' || *map == '\t' || *map == '\n')
-			++map;
 		if (*map)
-			coo[b++] = ft_atoi(map);
+			coo[b] = save_vector(b++, a[1], ft_atoi(map));
 		map = (*map == '+' || *map == '-') ? map + 1 : map;
 		while (ft_isdigit(*map))
 			++map;

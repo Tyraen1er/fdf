@@ -6,9 +6,26 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/16 04:40:22 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/18 05:38:59 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** Ne fonctionne que pour ce programme precis
+*/
+
+int		*save_vector(int pos, int linemax, int z);
+{
+	int		*vector;
+
+	vector = (int*)malloc(sizeof(int) * 5);
+	vector[0] = 1;
+	vector[1] = 3;
+	vector[3] = pos / linemax;
+	vector[2] = pos - (vector[2] * linemax);
+	vector[4] = z;
+	return (vector);
+}
 
 int		ft_atoihex(const char *nb)
 {
