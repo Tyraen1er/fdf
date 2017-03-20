@@ -39,7 +39,7 @@ int		*ft_convert(char *map, int *a)
 				*map != '+' && *map != '-' && !ft_isdigit(*map))
 			return (NULL);
 		if (*map)
-			coo[b] = save_vector(b++, a[1], ft_atoi(map));
+			coo[b] = save_vector(b++, a[0] / a[1], ft_atoi(map));
 		map = (*map == '+' || *map == '-') ? map + 1 : map;
 		while (ft_isdigit(*map))
 			++map;
