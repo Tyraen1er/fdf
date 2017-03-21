@@ -5,13 +5,16 @@ my_key_fonction :		aucune utilité pour le moment
 	 ft_display :		OK
 		   main :		OK
 
-Ordre programme
+my_key_fct->writing
 
-main -> ft_display (ft_convert)
-ft_display->writing
-writing->drawline
-ft_display->my_key_fct
-my_key_fct->translator
-my_key_fct->writing
-my_key_fct->writing
-writing->drawline
+main -> ft_convert
+main -> ft_display
+ft_convert -> save_vector
+ft_display -> writing (base)
+ft_display -> my_key_fct
+my_key_fct -> writing
+my_ket_fct -> ft_param
+ft_param -> translator
+translator -> ft_atoihex 
+writing -> matrice_multi
+writing -> drawline

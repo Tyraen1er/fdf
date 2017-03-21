@@ -62,10 +62,10 @@ int		my_key_fct(int keycode, void *pdf)
 	if (keycode == 53)
 		exit(3);
 	printf("il se passe quelquechose\n%d\n", keycode);
-	((int*)pdf)[0] -= (keycode == 123) ? 10 : 0;
-	((int*)pdf)[0] += (keycode == 124) ? 10 : 0;
-	((int*)pdf)[1] -= (keycode == 125) ? 10 : 0;
-	((int*)pdf)[1] += (keycode == 126) ? 10 : 0;
+	if (keycode == 123)
+	if (keycode == 124)
+	if (keycode == 125)
+	if (keycode == 126)
 	if (*commande == '/' || keycode == 44)
 	{
 		if (keycode == 44 && a)
