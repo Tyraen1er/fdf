@@ -3,9 +3,8 @@
 #include "libft.h"
 #include <math.h>
 
-int     ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
+void    ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
 {
-	int     f;
 	int     xav;
 	int     yav;
 	int     x;
@@ -15,24 +14,22 @@ int     ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
 	y = ya;
 	xav = (xa < xb) ? 1 : -1;
 	yav = (ya < yb) ? 1 : -1;
-	if (xb == xa)
-	{
-		f = xb;
-		xb = yb;
-		yb = xb;
-		f = xa;
-		xa = ya;
-		ya = f;
-	}
-	f = (xb - xa) / (yb - ya);
-	while ((xav == 1 && x < xb) || (xav == -1 && x > xb))
-	{
-		if (abs(((xb - xa) * x) / (yb - ya)))
+	if (abs(xa - xb) < abs(ya - yb))
+		while ((yav == 1 && y < yb) || (yav == -1 && y > yb))
+		{
+			if (!(abs(((xb - xa) * x) / (yb - ya))))
+				x += xav;
+			mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
 			y += yav;
-		mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
-		x += xav;
-	}
-	return (0);
+		}
+	else
+		while ((xav == 1 && x < xabyab[1]) || (xav == -1 && x > xabyab[1]))
+		{
+			if (abs(((xabyab[1] - xabyab[0]) * x) / (xabyab[3] - xabyab[2])))
+				y += yav;
+			mlx_pixel_put(mlx, win, x, y, color);
+			x += xav;
+		}
 }
 
 int		my_expose_fct(int exposecode, void *param)
@@ -70,13 +67,13 @@ int main()
 	mlx = mlx_init();
 
 // renvoie ID de la fenetre (ID, Size_t X, size_t y, nom fenetre)
-	win = mlx_new_window(mlx, 400, 400, "mlx 42");
+	win = mlx_new_window(mlx, 1000, 1000, "mlx 42");
 
 //(ID connexion, ID fenetre, pos X, pos Y, couleur en int 0x00 Rouge Bleu Vert)
 	mlx_pixel_put(mlx, win, 200, 200, 0x00FFFFFF);
 
 // traçage d une droite fait maison
-	ft_drawline(mlx, win, 10, 300, 10, 300);
+	ft_drawline(mlx, win, 100, 200, 100, 200);
 
 //(ID fenetre, pointeur sur fct, pointeur qui ne sera pas modifié)
 	mlx_key_hook(win, my_key_fct, 0);

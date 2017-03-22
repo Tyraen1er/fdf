@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/18 07:42:53 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/22 04:32:01 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,40 @@
 ** 126 = fleche haut
 */
 
-int		*ft_convert(char *map, int *a)
+int     **ft_convert(char *map, int *a)
 {
-	int		b;
-	int		**coo;
-	char	*tmp;
+	int     c;
+	int     b;
+	int     **coo;
+	char    *tmp;
 
+	c = 0;
 	tmp = map - 1;
-	while (*++tmp)
-		if (*tmp == '\t' || *tmp == ' ' || (*tmp == '\n' && ++a[1]))
-			++a[0];
+	while (*++tmp && ((map < tmp && *(tmp - 1) == '\n'
+					&& ft_isdigit(*tmp) && ++a[1]) || (1)))
+	{
+		if ((ft_isdigit(*tmp) || *++tmp == '-' || *(tmp - 1) == '+') && ++a[0])
+			while (ft_isdigit(*tmp))
+				++tmp;
+		else
+			return (NULL);
+	}
 	coo = (int**)malloc(sizeof(int*) * a[0]);
 	b = 0;
 	while (*map)
 	{
-		if (*map == ' ' || *map == '\t' || *map == '\n')
+		while (*map == ' ' || *map == '\t' || *map == '\n')
 			++map;
-		if (*map != ' ' && *map != '\t' && *map != '\n' &&
-				*map != '+' && *map != '-' && !ft_isdigit(*map))
-			return (NULL);
-		if (*map)
-			coo[b] = save_vector(b++, a[0] / a[1], ft_atoi(map));
-		map = (*map == '+' || *map == '-') ? map + 1 : map;
-		while (ft_isdigit(*map))
-			++map;
+		if ((ft_isdigit(*map) || *map == '-' || *map == '+') &&
+				(coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map))))
+		{
+			while ((ft_isdigit(*map) || *map == '-' || *map == '+'))
+				++map;
+			++b;
+		}
 	}
-	return (coo);
+	return(coo);
 }
-
-/*
-** xa = xabyab[0]
-** xb = xabyab[1]
-** ya = xabyab[2]
-** yb = xabyab[3]
-*/
 
 /*
 ** a[0] = number elems per line
@@ -67,36 +67,34 @@ int		*ft_convert(char *map, int *a)
 ** pdf[1] = poitnde fuite sur l ordonnée Y
 */
 
-void		writing(int *a, int *b, int *coo, int *pdf)
+void		writing(int *a, int *b, int **coo)
 {
 	while (b[1]--)
 		while (++b[0] < a[0])
 		{
 			xabyab[0] =
-			pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - b[1]) * a[0]];
+				pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - b[1]) * a[0]];
 			xabyab[2] =
-			pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
+				pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
 // equation position point avec point de fuite inclu fait au schnaps
 			if (b[1])
 			{
-		xabyab[1] =
-		pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - (b[1] + 1)) * a[0]];
-		xabyab[3] =
-		pdf[1] + 10 * (b[1] + 1) * 1 / coo[b[1] + (a[1] - (b[1] + 1)) * a[0]];
+				xabyab[1] = pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - (b[1] + 1)) * a[0]];
+				xabyab[3] = pdf[1] + 10 * (b[1] + 1) * 1 / coo[b[1] + (a[1] - (b[1] + 1)) * a[0]];
 				ft_drawline(mlx, win, xabyab);
 			}
 			if (b[0] < a[0])
 			{
-		xabyab[1] =
-		pdf[0] + 10 * (b[0] + 1) * 1 / coo[(b[0] + 1) + (a[1] - b[1]) * a[0]];
-		xabyab[3] =
-		pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
+				xabyab[1] =
+					pdf[0] + 10 * (b[0] + 1) * 1 / coo[(b[0] + 1) + (a[1] - b[1]) * a[0]];
+				xabyab[3] =
+					pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
 				ft_drawline(mlx, win, xabyab);
 			}
 		}
 }
 
-int		ft_display(int *coo, int *a)
+int		ft_display(int **coo, int *a)
 {
 	int				b[2];
 	static int		pdf[2];
@@ -111,10 +109,10 @@ int		ft_display(int *coo, int *a)
 	b[1] = a[1];
 	if (!coo)
 		return (0);
-	mlx = mlx_init();
+	mlx = mlx_init(void);
 	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
-	writing();
-	mlx_key_hook(win, my_key_fct, pdf);
+	writing(a, b, coo);
+	mlx_key_hook(win, my_key_fct);
 	mlx_loop(mlx);
 	return (1);
 }
@@ -147,7 +145,7 @@ int		main(int argc, char **argv)
 	}
 	a[0] = 0;
 	a[1] = 0;
-//	put_tab_nbr(ft_convert(map, a), a[0], a[1]);
+	//	put_tab_nbr(ft_convert(map, a), a[0], a[1]);
 	if (a[0] == -1 || ((a[0] = 1) && !(ft_display(ft_convert(map, a), a))))
 		ft_putstr("error read or display\n");
 	return (0);

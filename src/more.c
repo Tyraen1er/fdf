@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/18 05:38:59 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/22 05:01:40 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 ** Ne fonctionne que pour ce programme precis
 */
 
-int		*save_vector(int pos, int linemax, int z);
+int     *save_vector(int pos, int sizeline, int z)
 {
-	int		*vector;
+	int     *vector;
 
 	vector = (int*)malloc(sizeof(int) * 5);
 	vector[0] = 1;
 	vector[1] = 3;
-	vector[3] = pos / linemax;
-	vector[2] = pos - (vector[2] * linemax);
+	vector[3] = pos / sizeline;
+	vector[2] = pos - (vector[3] * sizeline);
 	vector[4] = z;
-	return (vector);
+    return (vector);
 }
 
 int		ft_atoihex(const char *nb)
@@ -48,7 +48,7 @@ int		ft_atoihex(const char *nb)
 	}
 	return (ret);
 }
-
+/*
 void	ft_param(char *commande)
 {
 	static int	*color = NULL;
@@ -81,7 +81,7 @@ int		my_key_fct(int keycode, void *pdf)
 	}
 	return (0);
 }
-
+*/
 void    ft_drawline(void *mlx, void *win, int *xabyab, int *color)
 {
 	int     xav;
