@@ -17,17 +17,18 @@ void    ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
 	if (abs(xa - xb) < abs(ya - yb))
 		while ((yav == 1 && y < yb) || (yav == -1 && y > yb))
 		{
-			if (!(abs(((xb - xa) * x) / (yb - ya))))
+			printf("increment : %d\n", abs(((xb - xa) * x) / (yb - ya)));
+			if ((abs(((xb - xa) * x) / (yb - ya))) <= 1)
 				x += xav;
 			mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
 			y += yav;
 		}
 	else
-		while ((xav == 1 && x < xabyab[1]) || (xav == -1 && x > xabyab[1]))
+		while ((xav == 1 && x < xb) || (xav == -1 && x > xb))
 		{
-			if (abs(((xabyab[1] - xabyab[0]) * x) / (xabyab[3] - xabyab[2])))
+			if (abs(((xb - xa) * x) / (yb - ya)))
 				y += yav;
-			mlx_pixel_put(mlx, win, x, y, color);
+			mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
 			x += xav;
 		}
 }
@@ -73,7 +74,7 @@ int main()
 	mlx_pixel_put(mlx, win, 200, 200, 0x00FFFFFF);
 
 // traçage d une droite fait maison
-	ft_drawline(mlx, win, 100, 200, 100, 200);
+	ft_drawline(mlx, win, 200, 400, 900, 200);
 
 //(ID fenetre, pointeur sur fct, pointeur qui ne sera pas modifié)
 	mlx_key_hook(win, my_key_fct, 0);
