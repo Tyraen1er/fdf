@@ -69,41 +69,23 @@ int     **ft_convert(char *map, int *a)
 
 void		writing(int *a, int *b, int **coo)
 {
-	while (b[1]--)
-		while (++b[0] < a[0])
-		{
-			xabyab[0] =
-				pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - b[1]) * a[0]];
-			xabyab[2] =
-				pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
-// equation position point avec point de fuite inclu fait au schnaps
-			if (b[1])
-			{
-				xabyab[1] = pdf[0] + 10 * b[0] * 1 / coo[b[0] + (a[1] - (b[1] + 1)) * a[0]];
-				xabyab[3] = pdf[1] + 10 * (b[1] + 1) * 1 / coo[b[1] + (a[1] - (b[1] + 1)) * a[0]];
-				ft_drawline(mlx, win, xabyab);
-			}
-			if (b[0] < a[0])
-			{
-				xabyab[1] =
-					pdf[0] + 10 * (b[0] + 1) * 1 / coo[(b[0] + 1) + (a[1] - b[1]) * a[0]];
-				xabyab[3] =
-					pdf[1] + 10 * b[1] * 1 / coo[b[1] + (a[1] - b[1]) * a[0]];
-				ft_drawline(mlx, win, xabyab);
-			}
-		}
+
+// Il faut afficher tous les segments a la suite
+// int	b vraiment utile ?
+	xabyab[0] = ;
+	xabyab[1] = ;
+	xabyab[2] = ;
+	xabyab[3] = ;
+	ft_drawline(mlx, win, xabyab);
 }
 
 int		ft_display(int **coo, int *a)
 {
 	int				b[2];
-	static int		pdf[2];
 	int				xabyab[4];
 	void			*mlx;
 	void			*win;
 
-	pdf[0] = 200;
-	pdf[1] = 200;
 	b[0] = -1;
 	a[0] /= a[1];
 	b[1] = a[1];
@@ -145,7 +127,7 @@ int		main(int argc, char **argv)
 	}
 	a[0] = 0;
 	a[1] = 0;
-	//	put_tab_nbr(ft_convert(map, a), a[0], a[1]);
+//	put_tab_nbr(ft_convert(map, a), a[0], a[1]);
 	if (a[0] == -1 || ((a[0] = 1) && !(ft_display(ft_convert(map, a), a))))
 		ft_putstr("error read or display\n");
 	return (0);

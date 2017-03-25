@@ -1,8 +1,9 @@
 	 ft_convert :		OK
 	save_vector :		OK
-	ft_drawline :		test vertical a faire
-		writing :		who know ?
-my_key_fonction :		aucune utilité pour le moment
+	translator  :		?
+	ft_drawline :		NO
+		writing :		NO
+my_key_fonction :		NO
 	 ft_display :		OK
 		   main :		OK
 
