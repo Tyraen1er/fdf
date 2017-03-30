@@ -77,19 +77,19 @@ void		writing(void *mlx, void *win, int *a, int **coo)
 	b = -1;
 	while (++b < a[0])
 	{
-		xabyab[0] = coo[b][2];
-		xabyab[2] = coo[b][3];
+		xabyab[0] = ft_param(coo[b])[2];
+		xabyab[2] =  ft_param(coo[b])[3];
 		xabyab[4] = ft_couleur(coo[b][4]);
 		if (b < a[0] - (a[0] / a[1]))
 		{
-			xabyab[1] = coo[b + (a[0] / a[1])][2];
-			xabyab[3] = coo[b + (a[0] / a[1])][3];
+			xabyab[1] =  ft_param(coo[b + (a[0] / a[1])])[2];
+			xabyab[3] =  ft_param(coo[b + (a[0] / a[1])])[3];
 			ft_drawline(mlx, win, xabyab);
 		}
 		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
 		{
-			xabyab[1] = coo[b + 1][2];
-			xabyab[3] = coo[b + 1][3];
+			xabyab[1] =  (ft_param(coo[b + 1]))[2];
+			xabyab[3] =  (ft_param(coo[b + 1]))[3];
 			ft_drawline(mlx, win, xabyab);
 		}
 	}

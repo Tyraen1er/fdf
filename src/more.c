@@ -51,11 +51,28 @@ int		ft_atoihex(char *nb)
 	return (ret);
 }
 
-void	ft_param(char *commande)
+// not finish
+int		*ft_param(int *vector)
 {
-//	static int	*color = NULL;
+	int		b;
+	int		*ret;
 
-	(void)commande;
+	b = -1;
+	while (++b < a[0])
+	{
+		xabyab[0] = coo[b];
+		xabyab[2] = coo[b];
+		if (b < a[0] - (a[0] / a[1]))
+		{
+			xabyab[1] = coo[b + (a[0] / a[1])];
+			xabyab[3] = coo[b + (a[0] / a[1])];
+		}
+		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
+		{
+			xabyab[1] = coo[b + 1];
+			xabyab[3] = coo[b + 1];
+		}
+	}
 }
 
 int		my_key_fct(int keycode, void *pdf)
