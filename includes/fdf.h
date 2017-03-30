@@ -6,16 +6,15 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/22 04:17:38 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/30 05:22:25 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# include "libft.h"
+# include <libft.h>
 # include "mlx.h"
 # include <stdio.h>
-# include "libft.h"
 # include <fcntl.h>
 # include <math.h>
 
@@ -26,6 +25,7 @@ int		translate(int keycode);
 int		transl(int keycode);
 int		translate_number(int keycode);
 int		ft_atoihex(char *nb);
+int		ft_couleur(int a);
 int		*save_vector(int pos, int sizeline, int z);
 void	ft_param(char *commande);
 

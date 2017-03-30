@@ -14,11 +14,12 @@ void    ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
 	y = ya;
 	xav = (xa < xb) ? 1 : -1;
 	yav = (ya < yb) ? 1 : -1;
-	if (abs(xa - xb) < abs(ya - yb))
+	if (!(xa - xa) && !(yb - ya))
+		mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
+	else if (abs(xa - xb) < abs(ya - yb))
 		while ((yav == 1 && y < yb) || (yav == -1 && y > yb))
 		{
-			printf("increment : %d\n", abs(((xb - xa) * x) / (yb - ya)));
-			if ((abs(((xb - xa) * x) / (yb - ya))) <= 1)
+			if (((xb - xa) * y) / (yb - ya) != ((xb - xa) * (y - 1)) / (yb - ya))
 				x += xav;
 			mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
 			y += yav;
@@ -26,8 +27,11 @@ void    ft_drawline(void *mlx, void *win, int xa, int xb, int ya, int yb)
 	else
 		while ((xav == 1 && x < xb) || (xav == -1 && x > xb))
 		{
-			if (abs(((xb - xa) * x) / (yb - ya)))
+			if (((yb - ya) * x) / (xb - xa) != ((yb - ya) * (x - 1)) / (xb - xa))
+			{
+				printf("toi\n");
 				y += yav;
+			}
 			mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF);
 			x += xav;
 		}
@@ -74,7 +78,7 @@ int main()
 	mlx_pixel_put(mlx, win, 200, 200, 0x00FFFFFF);
 
 // traçage d une droite fait maison
-	ft_drawline(mlx, win, 200, 400, 900, 200);
+	ft_drawline(mlx, win, 1, 1, 01, 02);
 
 //(ID fenetre, pointeur sur fct, pointeur qui ne sera pas modifié)
 	mlx_key_hook(win, my_key_fct, 0);

@@ -6,9 +6,11 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/22 05:01:40 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/30 05:32:33 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "fdf.h"
 
 /*
 ** Ne fonctionne que pour ce programme precis
@@ -27,7 +29,7 @@ int     *save_vector(int pos, int sizeline, int z)
     return (vector);
 }
 
-int		ft_atoihex(const char *nb)
+int		ft_atoihex(char *nb)
 {
 	int		ret;
 	int		a;
@@ -48,10 +50,12 @@ int		ft_atoihex(const char *nb)
 	}
 	return (ret);
 }
-/*
+
 void	ft_param(char *commande)
 {
-	static int	*color = NULL;
+//	static int	*color = NULL;
+
+	(void)commande;
 }
 
 int		my_key_fct(int keycode, void *pdf)
@@ -59,14 +63,19 @@ int		my_key_fct(int keycode, void *pdf)
 	static char		commande[20];
 	static int		a = 0;
 
+	(void)pdf;
 	if (keycode == 53)
 		exit(3);
 	printf("il se passe quelquechose\n%d\n", keycode);
-	if (keycode == 123)
+/*	if (keycode == 123)
+		rotation gauche 10 degré
 	if (keycode == 124)
+		rotation droite 10 degré
 	if (keycode == 125)
+		rotation bas 10 degré
 	if (keycode == 126)
-	if (*commande == '/' || keycode == 44)
+		rotation haut 10 degré
+*/	if (*commande == '/' || keycode == 44)
 	{
 		if (keycode == 44 && a)
 		{
@@ -81,33 +90,34 @@ int		my_key_fct(int keycode, void *pdf)
 	}
 	return (0);
 }
-*/
-void    ft_drawline(void *mlx, void *win, int *xabyab, int *color)
+
+void    ft_drawline(void *mlx, void *win, int *xabyab)
 {
 	int     xav;
 	int     yav;
 	int     x;
 	int     y;
-	static int		clr;
 
-	if (!color)
-		*color = 0x00FFFFFF;
 	x = xabyab[0];
 	y = xabyab[2];
 	xav = (xabyab[0] < xabyab[1]) ? 1 : -1;
 	yav = (xabyab[2] < xabyab[3]) ? 1 : -1;
-	if (xabyab[0] == xabyab[1])
-		while (y != xabyab[3])
+	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
+		mlx_pixel_put(mlx, win, x, y, xabyab[4]);
+	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
+		while ((yav == 1 && y < xabyab[3]) || (yav == -1 && y > xabyab[3]))
 		{
-			mlx_pixel_put(mlx, win, x, y, color);
+			if (((xabyab[1] - xabyab[0]) * y) / (xabyab[3] - xabyab[2]) != ((xabyab[1] - xabyab[0]) * (y - 1)) / (xabyab[3] - xabyab[2]))
+				x += xav;
+			mlx_pixel_put(mlx, win, x, y, xabyab[4]);
 			y += yav;
 		}
 	else
 		while ((xav == 1 && x < xabyab[1]) || (xav == -1 && x > xabyab[1]))
 		{
-			if (abs(((xabyab[1] - xabyab[0]) * x) / (xabyab[3] - xabyab[2])))
+			if (((xabyab[3] - xabyab[2]) * x) / (xabyab[1] - xabyab[0]) != ((xabyab[3] - xabyab[2]) * (x - 1)) / (xabyab[1] - xabyab[0]))
 				y += yav;
-			mlx_pixel_put(mlx, win, x, y, color);
+			mlx_pixel_put(mlx, win, x, y, xabyab[4]);
 			x += xav;
 		}
 }

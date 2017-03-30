@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/22 04:32:01 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/30 05:27:34 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,19 @@
 
 int     **ft_convert(char *map, int *a)
 {
-	int     c;
-	int     b;
-	int     **coo;
-	char    *tmp;
+	int		c;
+	int		b;
+	int		**coo;
+	char	*tmp;
 
-	c = 0;
-	tmp = map - 1;
-	while (*++tmp && ((map < tmp && *(tmp - 1) == '\n'
-					&& ft_isdigit(*tmp) && ++a[1]) || (1)))
+	tmp = map;
+	while (*tmp)
 	{
-		if ((ft_isdigit(*tmp) || *++tmp == '-' || *(tmp - 1) == '+') && ++a[0])
+		while (*tmp == ' ' || *tmp == '\t' || (*tmp == '\n' && ++a[1]))
+			++tmp;
+		if (*tmp == '+' || *tmp == '-')
+			++tmp;
+		if ((ft_isdigit(*tmp) && ++a[0]) || !*tmp)
 			while (ft_isdigit(*tmp))
 				++tmp;
 		else
@@ -39,18 +41,17 @@ int     **ft_convert(char *map, int *a)
 	}
 	coo = (int**)malloc(sizeof(int*) * a[0]);
 	b = 0;
+	c = 0;
 	while (*map)
 	{
 		while (*map == ' ' || *map == '\t' || *map == '\n')
 			++map;
-		if ((ft_isdigit(*map) || *map == '-' || *map == '+') &&
-				(coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map))))
-		{
-			while ((ft_isdigit(*map) || *map == '-' || *map == '+'))
-				++map;
-			++b;
-		}
+		coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map));
+		++b;
+		while (ft_isdigit(*map) || *map == '+' || *map == '-')
+			++map;
 	}
+	a[0]--;
 	return(coo);
 }
 
@@ -63,38 +64,48 @@ int     **ft_convert(char *map, int *a)
 ** xb = xabyab[1]
 ** ya = xabyab[2]
 ** yb = xabyab[3]
+** couleur = xabyab[4]
 ** pdf[0] = point de fuite sur l abscisse X
 ** pdf[1] = poitnde fuite sur l ordonnée Y
 */
 
-void		writing(int *a, int *b, int **coo)
+void		writing(void *mlx, void *win, int *a, int **coo)
 {
+	int		b;
+	int		xabyab[5];
 
-// Il faut afficher tous les segments a la suite
-// int	b vraiment utile ?
-	xabyab[0] = ;
-	xabyab[1] = ;
-	xabyab[2] = ;
-	xabyab[3] = ;
-	ft_drawline(mlx, win, xabyab);
+	b = -1;
+	while (++b < a[0])
+	{
+		xabyab[0] = coo[b][2];
+		xabyab[2] = coo[b][3];
+		xabyab[4] = ft_couleur(coo[b][4]);
+		if (b < a[0] - (a[0] / a[1]))
+		{
+			xabyab[1] = coo[b + (a[0] / a[1])][2];
+			xabyab[3] = coo[b + (a[0] / a[1])][3];
+			ft_drawline(mlx, win, xabyab);
+		}
+		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
+		{
+			xabyab[1] = coo[b + 1][2];
+			xabyab[3] = coo[b + 1][3];
+			ft_drawline(mlx, win, xabyab);
+		}
+	}
 }
 
 int		ft_display(int **coo, int *a)
 {
-	int				b[2];
-	int				xabyab[4];
 	void			*mlx;
 	void			*win;
 
-	b[0] = -1;
-	a[0] /= a[1];
-	b[1] = a[1];
 	if (!coo)
 		return (0);
-	mlx = mlx_init(void);
+	mlx = mlx_init();
 	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
-	writing(a, b, coo);
-	mlx_key_hook(win, my_key_fct);
+	writing(mlx, win, a, coo);
+	mlx_key_hook(win, my_key_fct, 0);
 	mlx_loop(mlx);
 	return (1);
 }
@@ -112,7 +123,7 @@ int		main(int argc, char **argv)
 	char	*tmp;
 
 	map = ft_memalloc(1);
-	if ((a[1] = 1) && argc != 2)
+	if (argc != 2)
 	{
 		ft_putstr("usage: ./fdf fichier_map\n");
 		return (0);
@@ -125,9 +136,7 @@ int		main(int argc, char **argv)
 		ft_memdel((void *)&map);
 		map = tmp;
 	}
-	a[0] = 0;
 	a[1] = 0;
-//	put_tab_nbr(ft_convert(map, a), a[0], a[1]);
 	if (a[0] == -1 || ((a[0] = 1) && !(ft_display(ft_convert(map, a), a))))
 		ft_putstr("error read or display\n");
 	return (0);

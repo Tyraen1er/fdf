@@ -1,5 +1,31 @@
 #include <stdio.h>
 #include "libft.h"
+#include <fcntl.h>
+#include <unistd.h>
+
+void		writing(int **coo, int *a)
+{
+	int		b;
+	int		c;
+	int		d;
+	int		xabyab[4];
+
+	b = -1;
+	c = 0;
+	d = a[0] / a[1] - 1;
+	while (++b < a[0])
+	{
+		printf("au cas ou %d\n", b);
+		if ((b + 1) % d || b < d)
+		{
+			xabyab[0] = coo[b][0];
+			xabyab[2] = coo[b][1];
+			xabyab[1] = coo[b + 1][0];
+			xabyab[3] = coo[b + 1][1];
+			printf("%d\n", b);
+		}
+	}               
+}
 
 int		*save_vector(int pos, int sizeline, int z)
 {
@@ -21,12 +47,14 @@ int		**ft_convert(char *map, int *a)
 	int		**coo;
 	char	*tmp;
 
-	c = 0;
-	tmp = map - 1;
-	while (*++tmp && ((map < tmp && *(tmp - 1) == '\n'
-					&& ft_isdigit(*tmp) && ++a[1]) || (1)))
+	tmp = map;
+	while (*tmp)
 	{
-		if ((ft_isdigit(*tmp) || *++tmp == '-' || *(tmp - 1) == '+') && ++a[0])
+		while (*tmp == ' ' || *tmp == '\t' || (*tmp == '\n' && ++a[1]))
+			++tmp;
+		if (*tmp == '+' || *tmp == '-')
+			++tmp;
+		if ((ft_isdigit(*tmp) && ++a[0]) || !*tmp)
 			while (ft_isdigit(*tmp))
 				++tmp;
 		else
@@ -34,59 +62,59 @@ int		**ft_convert(char *map, int *a)
 	}
 	coo = (int**)malloc(sizeof(int*) * a[0]);
 	b = 0;
+	c = 0;
 	while (*map)
 	{
 		while (*map == ' ' || *map == '\t' || *map == '\n')
 			++map;
-		if (ft_isdigit(*map) || *map == '-' || *map == '+')
-		{
-			coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map));
-			while (ft_isdigit(*map) || *map == '-' || *map == '+')
-				++map;
-			++b;
-		}
+		coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map));
+		++b;
+		while (ft_isdigit(*map) || *map == '+' || *map == '-')
+			++map;
 	}
 	return(coo);
 }
 
-int main()
+int main(int argc, char **argv)
 {
 	int		b;
 	int		c;
-	int		d;
-	char	*map;
-	int		a[2];
+	int     fd;
+	int     a[2];
 	int		**coo;
+	char    buf[151];
+	char    *map;
+	char    *tmp;
 
-	a[0] = 0;
-	a[1] = 1;
-	b = -1;
-	c = -1;
-	d = 0;
-	map = (char*)malloc(17);
-	map[0] = '5';
-	map[1] = ' ';
-	map[2] = '1';
-	map[3] = ' ';
-	map[4] = '5';
-	map[5] = ' ';
-	map[6] = '3';
-	map[7] = '\n';
-	map[8] = '8';
-	map[9] = ' ';
-	map[10] = '0';
-	map[11] = ' ';
-	map[12] = '2';
-	map[13] = ' ';
-	map[14] = '9';
-	map[15] = '\n';
-	map[16] = 0;
-	coo = ft_convert(map, a);
-	/*while (++b < a[0])
+	map = ft_memalloc(1);
+	if (!(a[1] = 0) && argc != 2)
 	{
+		ft_putstr("usage: ./fdf fichier_map\n");
+		return (0);
+	}
+	fd = open(argv[1], O_RDONLY);
+	while ((a[0] = read(fd, buf, 150)) && a[0] != -1)
+	{
+		buf[a[0]] = 0;
+		tmp = ft_strjoin(map, buf);
+		ft_memdel((void *)&map);
+		map = tmp;
+	}
+//	writing(ft_convert(map, a), a);
+	coo = ft_convert(map, a);
+	if (!coo)
+	{
+		printf("NULL\n");
+		return(0);
+	}
+	b = -1;
+	printf("a[0] = %d\n", a[0]);
+	while (++b < a[0])
+	{
+		printf("b = %d\n", b);
 		c = -1;
 		while (++c < coo[b][0] * coo[b][1] + 2)
 			printf("coo[%d][%d] = %d\n", b, c, coo[b][c]);
-	}*/
+	}
 	return (0);
 }

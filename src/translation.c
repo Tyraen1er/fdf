@@ -18,8 +18,7 @@ int		translate_number(keycode)
 		return ('7');
 	if (keycode == 28 || keycode == 91)
 		return ('8');
-	if (keycode == 25 || keycode == 92)
-		return ('9');
+	return ('9');
 }
 
 int		transl(int keycode)
@@ -28,15 +27,15 @@ int		transl(int keycode)
 		return ('t');
 	if (keycode == 32)
 		return ('u');
-	if (keycode == 09)
+	if (keycode == 9)
 		return ('v');
 	if (keycode == 13)
 		return ('w');
-	if (keycode == 07)
+	if (keycode == 7)
 		return ('x');
 	if (keycode == 16)
 		return ('y');
-	if (keycode == 06)
+	if (keycode == 6)
 		return ('z');
 	else
 		return (translate_number(keycode));
@@ -50,7 +49,7 @@ int		translate(int keycode)
 		return ('a');
 	if (keycode == 11)
 		return ('b');
-	if (keycode == 08)
+	if (keycode == 8)
 		return ('c');
 	if (keycode == 02)
 		return ('d');

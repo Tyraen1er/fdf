@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/03/18 07:45:03 by eferrand         ###   ########.fr        #
+#    Updated: 2017/03/28 03:09:44 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJ_FILES		:= $(addprefix $(OBJ_DIR)/,$(FILE_LIST:.c=.o))
 
 # libraries
 LIB_FT			:=	$(LIB_DIR)/libft
-LIB_FT_INC		:=	-I$(LIB_FT)/includes/
+LIB_FT_INC		:=	-I $(LIB_FT)/includes/
 LIB_FT_LINK		:=	-L $(LIB_FT) -l ft
 
 LIB_MLX			:=	$(LIB_DIR)/minilibx_macos
@@ -36,7 +36,7 @@ LIB_MLX_INC		:=	-I $(LIB_MLX)
 LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -framework OpenGL -framework Appkit
 
 # our project
-INCLUDES		:=	$(LIB_FT_INC) $(LIB_MLX_INC) -I $(INC_DIR)
+INCLUDES		:=	$(LIB_FT_INC) $(LIB_MLX_INC) -I$(INC_DIR)
 LINK			:=	$(LIB_FT_LINK) $(LIB_MLX_LINK)
 
 # compiler and flags

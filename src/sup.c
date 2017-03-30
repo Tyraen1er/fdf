@@ -1,19 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "fdf.h" 
 
-void    ft_bzero(void *tab, size_t n)
+int		ft_couleur(int a)
 {
-	while (n--)
-		((char *)tab)[n] = 0;
+	if (-125 < a && a < 128)
+		return (8388607 + a * 65535);
+	return ((a < 128) ? 0xFFFFFF : 196732);
 }
-
-/*
-** fst[0] = taille x
-** fst[1] = taille y
-** a = position ligne matrice fst
-** b = position colone matrice fst
-** c = pointeur de multiplication
-*/
 
 int		*matrice_multi(int *fst, int *scd)
 {
@@ -34,6 +26,7 @@ int		*matrice_multi(int *fst, int *scd)
 	while (++y < fst[1] && (x = -1))
 		while (++x < scd[0] && (a = -1))
 			while (++a < fst[0])
-				ret[2 + x + y * scd[0]] += fst[a + y * fst[0] + 2] * scd[a * scd[0] + x + 2];
+				ret[2 + x + y * scd[0]] +=
+					fst[a + y * fst[0] + 2] * scd[a * scd[0] + x + 2];
 	return (ret);
 }
