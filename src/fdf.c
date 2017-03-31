@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 04:02:03 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 06:47:08 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,19 @@ void		writing(void *mlx, void *win, int *a, int **coo)
 	b = -1;
 	while (++b < a[0])
 	{
-		xabyab[0] = ft_param(coo[b])[2];
-		xabyab[2] =  ft_param(coo[b])[3];
+		xabyab[0] = ft_param(coo[b], 0, 0)[2];
+		xabyab[2] =  ft_param(coo[b], 0, 0)[3];
 		xabyab[4] = ft_couleur(coo[b][4]);
 		if (b < a[0] - (a[0] / a[1]))
 		{
-			xabyab[1] =  ft_param(coo[b + (a[0] / a[1])])[2];
-			xabyab[3] =  ft_param(coo[b + (a[0] / a[1])])[3];
+			xabyab[1] =  ft_param(coo[b + (a[0] / a[1])], 0, 0)[2];
+			xabyab[3] =  ft_param(coo[b + (a[0] / a[1])], 0, 0)[3];
 			ft_drawline(mlx, win, xabyab);
 		}
 		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
 		{
-			xabyab[1] =  (ft_param(coo[b + 1]))[2];
-			xabyab[3] =  (ft_param(coo[b + 1]))[3];
+			xabyab[1] =  ft_param(coo[b + 1], 0, 0)[2];
+			xabyab[3] =  ft_param(coo[b + 1], 0, 0)[3];
 			ft_drawline(mlx, win, xabyab);
 		}
 	}

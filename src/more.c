@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 04:02:01 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 07:37:31 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int		*ft_param(int *vector, int axe, int modif)
 	a = -1;
 	ret = (int*)malloc(sizeof(int) * 5);
 	while (++a < 5)
-		ret[a] == vector[a];
-	ret = shift(vector, (modif == 1) ? axe : 0);
-	ret = rotate(ret, (modif == 2 ? axe : 0));
-	ret = zoom(vector, (modif == 3) ? axe : 0;
+		ret[a] = vector[a];
+	ret = zoom(vector, (modif == 1) ? axe : 0);
+	ret = shift(ret, (modif == 2) ? axe : 0);
+	ret = rotate(ret, (modif == 3) ? axe : 0);
 	return (ret);
 }
 
@@ -76,15 +76,11 @@ int		my_key_fct(int keycode, void *pdf)
 	if (keycode == 53)
 		exit(3);
 	printf("il se passe quelquechose\n%d\n", keycode);
-/*	if (keycode == 123)
-		rotation gauche 10 degré
-	if (keycode == 124)
-		rotation droite 10 degré
-	if (keycode == 125)
-		rotation bas 10 degré
-	if (keycode == 126)
-		rotation haut 10 degré
-*/	if (*commande == '/' || keycode == 44)
+	if (keycode == 123 || keycode == 124)
+		ft_param(NULL, (keycode == 123) ? -'x' : 'x', 2);
+	if (keycode == 125 || keycode == 126)
+		ft_param(NULL, (keycode == 126) ? -'x' : 'x', 2);
+	if (*commande == '/' || keycode == 44)
 	{
 		if (keycode == 44 && a)
 		{
@@ -95,7 +91,8 @@ int		my_key_fct(int keycode, void *pdf)
 		if (keycode != 36)
 			commande[a++] = translator(keycode);
 		if (keycode == 36)
-			ft_param(commande);
+			;
+//			ft_param(commande);
 	}
 	return (0);
 }
