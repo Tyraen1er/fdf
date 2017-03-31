@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 07:44:08 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 08:09:55 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int		*rotate(int *vector, int axe)
 	static int	y = 45;
 	static int	z = 45;
 	int			*ret;
-	float		rot[11];
+	double		rot[11];
 
 	ret = NULL;
-	ft_bzero(rot, sizeof(int) * 11);
+	ft_bzero(rot, sizeof(double) * 11);
 	if (axe == 'x' || axe == -'x')
 		x += (axe == 'x') ? 15 : -15;
 	rot[2] = 1;
@@ -72,8 +72,8 @@ int		*rotate(int *vector, int axe)
 	rot[9] = sin(x);
 	rot[10] = cos(x);
 	if (vector)
-		ret = matrice_multi(ret, rot);
-	ft_bzero(rot, sizeof(int) * 11);
+		ret = matrice_multi(vector, rot);
+	ft_bzero(rot, sizeof(double) * 11);
 	if (axe == 'y' || axe == -'y')
 		y += (axe == 'y') ? 15 : -15;
 	rot[2] = cos(y);
@@ -81,9 +81,15 @@ int		*rotate(int *vector, int axe)
 	rot[6] = 1;
 	rot[8] = -sin(y);
 	rot[10] = cos(y);
+
+	if (ret)
+		printf("ret[0] = %d et ret[1] = %d\n", ret[1], ret [2]);
+	printf("est ce la que tu bug ?\n");
 	if (vector)
 		ret = matrice_multi(ret, rot);
-	ft_bzero(rot, sizeof(int) * 11);
+	printf("est ce la que tu bug ?\n");
+	
+	ft_bzero(rot, sizeof(double) * 11);
 	if (axe == 'z' || axe == -'z')
 		z += (axe == 'z') ? 15 : -15;
 	rot[2] = cos(z);
@@ -96,7 +102,7 @@ int		*rotate(int *vector, int axe)
 	return (ret);
 }
 
-int		*matrice_multi(int *fst, float *scd)
+int		*matrice_multi(int *fst, double *scd)
 {
 	int	*ret;
 	int	*tmp;
@@ -105,8 +111,11 @@ int		*matrice_multi(int *fst, float *scd)
 	int	a;
 
 	y = -1;
-	if ((float)fst[0] != scd[1])
+	if (fst[0] != (int)scd[1])
+	{
+		printf("c est la merde chef !!!\n");
 		return (NULL);
+	}
 	ret = (int*)ft_memalloc(sizeof(int) * ((int)(fst[1] * scd[0] + 2)));
 	ret[0] = scd[0];
 	ret[1] = fst[1];

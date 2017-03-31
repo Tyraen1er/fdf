@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 07:38:57 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 08:05:57 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int		*ft_param(int *vector, int axe, int modif);
 int		*shift(int *vector, int axe);
 int		*rotate(int *vector, int axe);
 int		*zoom(int *vector, int axe);
-int		*matrice_multi(int *first, float *second);
+int		*matrice_multi(int *first, double *second);
 
 #endif
