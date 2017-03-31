@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/30 05:27:34 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 04:02:03 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		ft_display(int **coo, int *a)
 	if (!coo)
 		return (0);
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, 2000, 2000, "mlx 42");
+	win = mlx_new_window(mlx, 1800, 1800, "mlx 42");
 	writing(mlx, win, a, coo);
 	mlx_key_hook(win, my_key_fct, 0);
 	mlx_loop(mlx);

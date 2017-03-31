@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/30 05:32:33 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/03/31 04:02:01 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,19 @@ int		ft_atoihex(char *nb)
 }
 
 // not finish
-int		*ft_param(int *vector)
+int		*ft_param(int *vector, int axe, int modif)
 {
-	int		b;
+	int		a;
 	int		*ret;
 
-	b = -1;
-	while (++b < a[0])
-	{
-		xabyab[0] = coo[b];
-		xabyab[2] = coo[b];
-		if (b < a[0] - (a[0] / a[1]))
-		{
-			xabyab[1] = coo[b + (a[0] / a[1])];
-			xabyab[3] = coo[b + (a[0] / a[1])];
-		}
-		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
-		{
-			xabyab[1] = coo[b + 1];
-			xabyab[3] = coo[b + 1];
-		}
-	}
+	a = -1;
+	ret = (int*)malloc(sizeof(int) * 5);
+	while (++a < 5)
+		ret[a] == vector[a];
+	ret = shift(vector, (modif == 1) ? axe : 0);
+	ret = rotate(ret, (modif == 2 ? axe : 0));
+	ret = zoom(vector, (modif == 3) ? axe : 0;
+	return (ret);
 }
 
 int		my_key_fct(int keycode, void *pdf)
