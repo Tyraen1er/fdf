@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 08:02:03 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/04/05 03:47:44 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int		*ft_param(int *vector, int axe, int modif)
 	int		a;
 	int		*ret;
 
+	ret = (int[5]){0};
 	a = -1;
-	ret = (int*)malloc(sizeof(int) * 5);
 	while (++a < 5)
 		ret[a] = vector[a];
-	ret = zoom(vector, (modif == 1) ? axe : 0);
-	ret = shift(ret, (modif == 2) ? axe : 0);
+	zoom(ret, (modif == 1) ? axe : 0);
 	ret = rotate(ret, (modif == 3) ? axe : 0);
+	shift(ret, (modif == 2) ? axe : 0);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/03/31 06:47:08 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/04/05 04:32:08 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,34 @@ int     **ft_convert(char *map, int *a)
 	int		c;
 	int		b;
 	int		**coo;
-	char	*tmp;
 
-	tmp = map;
-	while (*tmp)
+	b = 0;
+	c = 0;
+	while(map[c] != '\n' && map[c])
+		++c;
+	printf("%d\n", c);
+	while (map[b])
 	{
-		while (*tmp == ' ' || *tmp == '\t' || (*tmp == '\n' && ++a[1]))
-			++tmp;
-		if (*tmp == '+' || *tmp == '-')
-			++tmp;
-		if ((ft_isdigit(*tmp) && ++a[0]) || !*tmp)
-			while (ft_isdigit(*tmp))
-				++tmp;
+		while (map[b] == ' ' || map[b] == '\t' ||
+				(map[b] == '\n' && ++a[1]))
+		{
+			if (map[b] == '\n')
+				printf("map = %d\n", b);
+			++b;
+		}
+		if (map[b] == '+' || map[b] == '-')
+			++b;
+		if ((ft_isdigit(map[b]) && ++a[0]) || !map[b])
+			while (ft_isdigit(map[b]))
+				++b;
 		else
+		{
+			printf("quit : map - map = %d\n", b);
 			return (NULL);
+		}
 	}
 	coo = (int**)malloc(sizeof(int*) * a[0]);
 	b = 0;
-	c = 0;
 	while (*map)
 	{
 		while (*map == ' ' || *map == '\t' || *map == '\n')
@@ -69,29 +79,41 @@ int     **ft_convert(char *map, int *a)
 ** pdf[1] = poitnde fuite sur l ordonnée Y
 */
 
-void		writing(void *mlx, void *win, int *a, int **coo)
+void		writing(void *mlx, void *win, int *a, int **input)
 {
-	int		b;
-	int		xabyab[5];
+	int				b;
+	int				xabyab[5];
+	int				*vector;
+	static int		**coo = NULL;
 
+	coo = (input) ? input : coo;
 	b = -1;
 	while (++b < a[0])
 	{
-		xabyab[0] = ft_param(coo[b], 0, 0)[2];
-		xabyab[2] =  ft_param(coo[b], 0, 0)[3];
-		xabyab[4] = ft_couleur(coo[b][4]);
+		vector = ft_param(coo[b], 0, 0);
+//		printf("coo[%d] = %d, %d, %d\n", b, coo[b][2], coo[b][3], coo[b][4]);
+		xabyab[0] = vector[2];
+		xabyab[2] = vector[3];
+		ft_memdel((void**)&vector);
 		if (b < a[0] - (a[0] / a[1]))
 		{
-			xabyab[1] =  ft_param(coo[b + (a[0] / a[1])], 0, 0)[2];
-			xabyab[3] =  ft_param(coo[b + (a[0] / a[1])], 0, 0)[3];
+			vector = ft_param(coo[b + (a[0] / a[1])], 0, 0);
+			xabyab[1] = vector[2];	
+			xabyab[3] = vector[3];
+//			printf("xa = %d ya = %d, xb = %d yb = %d\n", xabyab[0], xabyab[2], xabyab[1], xabyab[3]);
 			ft_drawline(mlx, win, xabyab);
+			ft_memdel((void**)&vector);
 		}
 		if (b % (a[0] / a[1]) < (a[0] / a[1]) - 1)
 		{
-			xabyab[1] =  ft_param(coo[b + 1], 0, 0)[2];
-			xabyab[3] =  ft_param(coo[b + 1], 0, 0)[3];
+			vector = ft_param(coo[b], 0, 0);
+			xabyab[1] = vector[2];	
+			xabyab[3] = vector[3];
+//			printf("xa = %d ya = %d, xb = %d yb = %d\n", xabyab[0] , xabyab[2] , xabyab[1] , xabyab[3]);
 			ft_drawline(mlx, win, xabyab);
+			ft_memdel((void**)&vector);
 		}
+//		printf("\n");
 	}
 }
 

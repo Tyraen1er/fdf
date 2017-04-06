@@ -66,6 +66,52 @@ int		*save_vector(int pos, int sizeline, int z)
 	return (vector);
 }
 
+int     **ft_convert(char *map, int *a)
+{
+	int		c;
+	int		b;
+	int		**coo;
+
+	b = 0;
+	c = 0;
+	while(map[c] != '\n' && map[c])
+		++c;
+	printf("%d\n", c);
+	while (map[b])
+	{
+		while (map[b] == ' ' || map[b] == '\t' ||
+				(map[b] == '\n' && ++a[1]))
+		{
+			if (map[b] == '\n')
+				printf("map = %d\n", b);
+			++b;
+		}
+		if (map[b] == '+' || map[b] == '-')
+			++b;
+		if ((ft_isdigit(map[b]) && ++a[0]) || !map[b])
+			while (ft_isdigit(map[b]))
+				++b;
+		else
+		{
+			printf("quit : map - map = %d\n", b);
+			return (NULL);
+		}
+	}
+	coo = (int**)malloc(sizeof(int*) * a[0]);
+	b = 0;
+	while (*map)
+	{
+		while (*map == ' ' || *map == '\t' || *map == '\n')
+			++map;
+		coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map));
+		++b;
+		while (ft_isdigit(*map) || *map == '+' || *map == '-')
+			++map;
+	}
+	a[0]--;
+	return(coo);
+}
+/*
 int		**ft_convert(char *map, int *a)
 {
 	int		c;
@@ -100,7 +146,7 @@ int		**ft_convert(char *map, int *a)
 	}
 	return(coo);
 }
-
+*/
 int main(int argc, char **argv)
 {
 	int		b;
