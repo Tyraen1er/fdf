@@ -23,10 +23,12 @@ int     **ft_convert(char *map, int *a)
 {
 	int		c;
 	int		b;
+	int		d;
 	int		**coo;
 
 	b = 0;
 	c = 0;
+	d = 0;
 	while(map[c] != '\n' && map[c])
 		++c;
 	printf("%d\n", c);
@@ -35,13 +37,16 @@ int     **ft_convert(char *map, int *a)
 		while (map[b] == ' ' || map[b] == '\t' ||
 				(map[b] == '\n' && ++a[1]))
 		{
-			if (map[b] == '\n')
-				printf("map = %d\n", b);
+			if (map[b] == '\n' && d != c)
+			{
+				printf("map = %d\n", d);
+				return (NULL);
+			}
 			++b;
 		}
 		if (map[b] == '+' || map[b] == '-')
 			++b;
-		if ((ft_isdigit(map[b]) && ++a[0]) || !map[b])
+		if ((ft_isdigit(map[b]) && ++a[0] && ++d) || !map[b])
 			while (ft_isdigit(map[b]))
 				++b;
 		else
