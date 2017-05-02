@@ -3,7 +3,7 @@ t_par	*parsing(char *file)
 	int		a;
 	int		b;
 	int		c;
-	t_par	*pars;
+	t_pars	*pars;
 
 	a = -1;
 	pars = (s_pars)malloc(sizeof(s_wag));
@@ -18,7 +18,7 @@ t_par	*parsing(char *file)
 */
 	while (file[++a])
 	{
-		if (ft_isdigit(file[a]) && ++pars->allsizeint)
+		if ((ft_isdigit(file[a]) && ++pars->allsizeint) || (file[a] == '0' && file[a + 1] == 'x' && ft_isdigit(file[a + 2]) && ++pars->allsizeword && ++pars->allsizeint && (a += 2)))
 			while (ft_isdigit(file[a]))
 				++a;
 		if (ft_isletter(file[a]) && ++pars->allsizeword)
@@ -28,10 +28,11 @@ t_par	*parsing(char *file)
 			++pars->nbl;
 	}
 	pars->allsize = a;
-	pars->sizechar = (int*)malloc(sizeof(int) * nbl + 1);
-	pars->sizeint = (int*)malloc(sizeof(int) * nbl + 1));
-	pars->datachar = (char**)malloc(sizeof(char*) * nbl + 1));
-	pars->dataint = (int**)malloc(sizeof(int*) * nbl + 1));
+	pars->sizechar = (int*)malloc(sizeof(int) * pars->nbl + 1);
+	pars->sizeint = (int*)malloc(sizeof(int) *  pars->nbl + 1));
+	pars->datachar = (char**)malloc(sizeof(char*) *  pars->nbl + 1));
+	pars->dataint = (int**)malloc(sizeof(int*) *  pars->nbl + 1));
+	pars->typedataint = (int**)malloc(sizeof(int*) *  pars->nbl + 1));
 	pars->sizechar[nbl] = NULL;
 	pars->sizeint[nbl] = NULL;
 	pars->datachar[nbl] = NULL;
