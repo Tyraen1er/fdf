@@ -40,18 +40,16 @@ t_par	*parsing(char *file)
 	a = 0;
 	b = 0;
 	c = 0;
-	while(file[a] && ++b)
+	while(file[a])
 	{
 		while (file[a] && file[a] != '\n')
 		{
-			++a;
-			++pars->sizechar[b]
-			if (ft_isdigit(file[a]) && ++pars->sizeint[b])
-				while (ft_isdigit(file[a]))
-				{
-					++a;
-					++pars->sizechar[b]
-				}
+			if (ft_isdigit)
+			{
+			}
+			if (ft_isletter)
+			{
+			}
 		}
 		pars->dataint[b] = (int*)malloc(sizeof(int) * pars->sizeint[b + 1]);
 		pars->datachar[b] = (char*)malloc(sizeof(char) * pars->sizechar[b + 1]);

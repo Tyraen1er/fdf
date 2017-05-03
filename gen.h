@@ -6,7 +6,7 @@
 ** sizeword = nombre mot sur la ligne
 ** sizeint = nombre int sur la ligne
 ** dataint = les int par ligne
-*** dataword = les mots par ligne
+** dataword = les mots par ligne
 ** datachar = les lignes
 */
 
