@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/04/05 03:47:44 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/04 06:26:18 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int		ft_atoihex(char *nb)
 	ret = 0;
 	b = 0;
 	a = ft_strlen(nb);
+	if (nb[b] != '0' || nb[b + 1] != 'x')
+		return (atoi(nb));
 	while (a--)
 	{
 		if ('0' <= nb[a] && nb[a] <= '9')

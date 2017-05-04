@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 07:33:09 by eferrand          #+#    #+#             */
-/*   Updated: 2017/04/05 04:32:08 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/04 03:57:51 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ int     **ft_convert(char *map, int *a)
 	d = 0;
 	while(map[c] != '\n' && map[c])
 		++c;
-	printf("%d\n", c);
 	while (map[b])
 	{
-		while (map[b] == ' ' || map[b] == '\t' ||
+		while (map[b] == ' ' || map[b] == '\t' || map[b] == ',' ||
 				(map[b] == '\n' && ++a[1]))
 		{
 			if (map[b] == '\n' && d != c)
@@ -61,7 +60,7 @@ int     **ft_convert(char *map, int *a)
 	{
 		while (*map == ' ' || *map == '\t' || *map == '\n')
 			++map;
-		coo[b] = save_vector(b, a[0] / a[1], ft_atoi(map));
+		coo[b] = save_vector(b, a[0] / a[1], ft_atoihex(map));
 		++b;
 		while (ft_isdigit(*map) || *map == '+' || *map == '-')
 			++map;

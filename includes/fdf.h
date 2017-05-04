@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/04/05 03:43:08 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/04 06:26:22 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,22 @@ int		*rotate(int *vector, int axe);
 void	shift(int *vector, int axe);
 void	zoom(int *vector, int axe);
 int		*matrice_multi(int *first, double *second);
+
+typedef struct	s_line
+{
+	int			sizeline;
+	int			line;
+	t_coo		*start;
+	t_line		next;
+	t_line		prev;
+}				t_line
+
+typedef struct	s_coo
+{
+	int			x;
+	int			y;
+	int			z;
+	int			color;
+}				t_coo;
 
 #endif

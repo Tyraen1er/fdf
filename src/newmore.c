@@ -1,0 +1,3 @@
+int		*save_vector()
+{
+}
