@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/04 06:26:18 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/06 01:44:02 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int     *save_vector(int pos, int sizeline, int z)
     return (vector);
 }
 
-int		ft_atoihex(char *nb)
+int		ft_atoifdf(char *nb)
 {
 	int		ret;
 	int		a;
