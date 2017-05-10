@@ -1,46 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   newfdf.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/10 06:50:23 by eferrand         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "fdf.h"
 
-int		ft_display(t_line *line)
-{
-	void	*mlx;
-	void	*win;
-	void	*all[3];
+t_line      *ft_createline(int l);
+int			ft_test(t_line *line);
+t_line      *ft_whichline(int l);
+t_line      *ft_convert(char *map);
+int 	    ft_atoifdf(char *nb);
 
-	if (!line)
-		return (0);
-	mlx = mlx_init();
-	if (!mlx)
-		exit(3);
-	win = mlx_new_window(mlx, 1800, 1800, "mlx 42");
-	if (!win)
-		exit(3);
-	line = ft_whichline(1);
-	while (line->next)
-		line = line->next;
-	all[0] = mlx;
-	all[1] = win;
-	all[2] = line;
-	writing(mlx, win, line);
-	mlx_key_hook(win, my_key_fct, all);
-	mlx_loop(mlx);
-	return (1);
+int     ft_atoifdf(char *nb)
+{
+	int     ret;
+	int     a;
+	int     b;
+
+	ret = 0;
+	b = 0;
+	a = ft_strlen(nb);
+	if (nb[b] != '0' || nb[b + 1] != 'x')
+		return (atoi(nb));
+	while (a--)
+	{
+		if ('0' <= nb[a] && nb[a] <= '9')
+			ret += (nb[a] - '0') << (b * 4);
+		if ('a' <= nb[a] && nb[a] <= 'f')
+			ret += (nb[a] - 'a' + 10) << (b * 4);
+		if ('A' <= nb[a] && nb[a] <= 'F')
+			ret += (nb[a] - 'A' + 10) << (b * 4);
+		++b;
+	}
+	return (ret);
 }
 
-t_line		*ft_createline(int l)
+t_line      *ft_createline(int l)
 {
-	t_line	*new;
+	t_line  *new;
 
 	if (!(new = malloc(sizeof(t_line))))
 		return (NULL);
@@ -52,10 +44,10 @@ t_line		*ft_createline(int l)
 	return (new);
 }
 
-t_line		*ft_whichline(int l)
+t_line      *ft_whichline(int l)
 {
-	static t_line	*begin = NULL;
-	t_line			*tmp;
+	static t_line   *begin = NULL;
+	t_line          *tmp;
 
 	if ((tmp = begin))
 		while (tmp->next && tmp->line != l)
@@ -74,13 +66,32 @@ t_line		*ft_whichline(int l)
 	return (tmp);
 }
 
-void		writing(void *mlx, void *win, t_line *line)
+int		ft_test(t_line *line)
 {
-	int		***coo;
-	int		xabyab[5];
+	int		xabyab[6];
 	int		a;
+	int		***coo;
 
-	xabyab[4] = 0xFFFFFF;
+	if (!line)
+		return (0);
+	line = ft_whichline(1);
+	while (line)
+	{
+		printf("sizeline = %d line = %d\n", line->sizeline,  line->line);
+		a = 0;
+		while (a < line->sizeline)
+		{
+			printf("%d %d %d %d %d\t", line->vector[a][0], line->vector[a][1], line->vector[a][2], line->vector[a][3], line->vector[a][4]);
+			++a;
+		}
+		printf("\n");
+		line = line->next;
+	}
+
+	line = ft_whichline(1);
+	while (line->next)
+		line = line->next;
+	printf("%d\n", line->line);
 	coo = (int***)malloc(sizeof(int**) * line->line);
 	line = ft_whichline(1);
 	while (line)
@@ -89,7 +100,7 @@ void		writing(void *mlx, void *win, t_line *line)
 		a = 0;
 		while (a < line->sizeline)
 		{
-			coo[line->line - 1][a] = ft_param(line->vector[a], 0, 0);
+			coo[line->line - 1][a] = line->vector[a];
 			++a;
 		}
 		line = line->next;
@@ -100,32 +111,34 @@ void		writing(void *mlx, void *win, t_line *line)
 		a = 0;
 		while (a < line->sizeline)
 		{
-			xabyab[0] = coo[line->line - 1][a][2];
-			xabyab[2] = coo[line->line - 1][a][3];
 			if (line->next && a < line->next->sizeline)
 			{
-				xabyab[1] = coo[line->line][a][2];
-				xabyab[3] = coo[line->line][a][3];
-				ft_drawline(mlx, win, xabyab);
+				printf("xa = %d\n", coo[line->line - 1][a][2]);
+				printf("ya = %d\n", coo[line->line - 1][a][3]);
+				printf("xb = %d\n", coo[line->line][a][2]);
+				printf("yb = %d\n\n", coo[line->line][a][3]);
 			}
 			if (a < line->sizeline - 1)
 			{
-				xabyab[1] = coo[line->line - 1][a + 1][2];
-				xabyab[3] = coo[line->line - 1][a + 1][3];
-				ft_drawline(mlx, win, xabyab);
+				printf("xa = %d\n", coo[line->line - 1][a][2]);
+				printf("ya = %d\n", coo[line->line - 1][a][3]);
+				printf("xb = %d\n", coo[line->line - 1][a + 1][2]);
+				printf("yb = %d\n\n", coo[line->line - 1][a + 1][3]);
 			}
 			++a;
 		}
 		line = line->next;
 	}
+	return (1);
 }
 
-t_line		*ft_convert(char *map)
+
+t_line      *ft_convert(char *map)
 {
-	int		a;
-	int		b;
-	int		l;
-	t_line	*tmp;
+	int     a;
+	int     b;
+	int     l;
+	t_line  *tmp;
 
 	a = 0;
 	l = 1;
@@ -191,11 +204,11 @@ t_line		*ft_convert(char *map)
 
 int  main(int argc, char **argv)
 {
-	int		fd;
-	int		a;
-	char	buf[151];
-	char	*map;
-	char	*tmp;
+	int     fd;
+	int     a;
+	char    buf[151];
+	char    *map;
+	char    *tmp;
 
 	map = ft_memalloc(1);
 	if (argc != 2)
@@ -211,7 +224,7 @@ int  main(int argc, char **argv)
 		ft_memdel((void *)&map);
 		map = tmp;
 	}
-	if (a == -1 || ((a = 1) && !(ft_display(ft_convert(map)))))
+	if (a == -1 || ((a = 1) && !(ft_test(ft_convert(map)))))
 		ft_putstr("error read or display\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/06 02:45:00 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/10 01:09:11 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,21 @@
 # include <fcntl.h>
 # include <math.h>
 
+typedef struct		s_line
+{
+	int				sizeline;
+	int				line;
+	int				**vector;
+	struct s_line	*next;
+	struct s_line	*prev;
+}					t_line;
+
 void	ft_drawline(void *mlx, void *win, int *xabyab);
+void	writing(void *mlx, void *win, t_line *line);
 int		my_key_fct(int keycode, void *pdf);
 int		translator(int keycode);
+t_line	*ft_createline(int l);
+t_line	*ft_whichline(int l);
 int		translate(int keycode);
 int		transl(int keycode);
 int		translate_number(int keycode);
@@ -30,17 +42,9 @@ int		*save_vector(int pos, int sizeline, int z);
 int		*ft_param(int *vector, int axe, int modif);
 int		*rotate(int *vector, int axe);
 void	shift(int *vector, int axe);
-void	zoom(int *vector, int axe);
+void	scaling(int *vector, int axe);
 int		*matrice_multi(int *first, double *second);
 
-typedef struct	s_line
-{
-	int			sizeline;
-	int			line;
-	int			**vector;
-	t_line		next;
-	t_line		prev;
-}				t_line
 
 /*
 **	donnée vector :

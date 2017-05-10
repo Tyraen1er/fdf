@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/06 01:44:02 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/10 07:15:40 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 /*
 ** Ne fonctionne que pour ce programme precis
 */
-
-int     *save_vector(int pos, int sizeline, int z)
-{
-	int     *vector;
-
-	vector = (int*)malloc(sizeof(int) * 5);
-	vector[0] = 1;
-	vector[1] = 3;
-	vector[3] = pos / sizeline;
-	vector[2] = pos - (vector[3] * sizeline);
-	vector[4] = z;
-    return (vector);
-}
 
 int		ft_atoifdf(char *nb)
 {
@@ -53,49 +40,51 @@ int		ft_atoifdf(char *nb)
 	return (ret);
 }
 
-// not finish
 int		*ft_param(int *vector, int axe, int modif)
 {
 	int		a;
 	int		*ret;
 
-	ret = (int[5]){0};
+	(void)axe;
+	(void)modif;
+	ret = (vector) ? (int*)malloc(sizeof(int) * 5) : NULL;
 	a = -1;
-	while (++a < 5)
+	while (vector && ++a < 5)
 		ret[a] = vector[a];
-	zoom(ret, (modif == 1) ? axe : 0);
-	ret = rotate(ret, (modif == 3) ? axe : 0);
+	scaling(ret, (modif == 1) ? axe : 0);
+/*
+	Cette mechante bestiole contient un segfault, il est donc enfermé pour la
+	securité de tous.
+	Merci de ne pas le libérer !
+	Nan je deconne mais l affichage n est plus cohérent avec lui dans les
+	parages...
+*/
+//	ret = rotate(ret, (modif == 3) ? axe : 0);
 	shift(ret, (modif == 2) ? axe : 0);
 	return (ret);
 }
 
-int		my_key_fct(int keycode, void *pdf)
+int		my_key_fct(int keycode, void *all)
 {
-	static char		commande[20];
-	static int		a = 0;
-
-	(void)pdf;
+	printf("keycode = %d\n", keycode);
 	if (keycode == 53)
 		exit(3);
-	printf("il se passe quelquechose\n%d\n", keycode);
+	// 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
+	// 69 = + ||| 78 = -
+	// 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = * 
 	if (keycode == 123 || keycode == 124)
 		ft_param(NULL, (keycode == 123) ? -'x' : 'x', 2);
 	if (keycode == 125 || keycode == 126)
-		ft_param(NULL, (keycode == 126) ? -'x' : 'x', 2);
-	if (*commande == '/' || keycode == 44)
-	{
-		if (keycode == 44 && a)
-		{
-			ft_bzero(commande, 20);
-			*commande = '/';
-		}
-// entree = 36
-		if (keycode != 36)
-			commande[a++] = translator(keycode);
-		if (keycode == 36)
-			;
-//			ft_param(commande);
-	}
+		ft_param(NULL, (keycode == 126) ? -'y' : 'y', 2);
+	if (keycode == 69 || keycode == 78)
+		ft_param(NULL, (keycode == 69) ? '+' : '-' , 1);
+	if (keycode == 91 || keycode == 84)
+		ft_param(NULL, (keycode == 91) ? 'x': -'x', 3);
+	if (keycode == 86 || keycode == 88)
+		ft_param(NULL, (keycode == 86) ? 'y': -'y', 3);
+	if (keycode == 75 || keycode == 67)
+		ft_param(NULL, (keycode == 75) ? 'z': -'z', 3);
+	writing(((void**)all)[0], ((void**)all)[1], ((void**)all)[2]);
 	return (0);
 }
 
