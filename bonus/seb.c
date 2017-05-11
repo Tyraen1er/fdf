@@ -1,8 +1,31 @@
 #include "libft.h"
 #include <fcntl.h>
 
-void (writing)
+void writing(void *mlx, void *win, int **coo, int nombre)
 {
+	int		xabyab[5];
+	int		**aff;
+	int		a;
+	int		b;
+
+	a = 0;
+	xabyab[4] = 0xFFFFFF;
+	while (a < nombre)
+	{
+		aff[a] = ft_param(coo[a]);
+		++a;
+	}
+	a = 0;
+	while (a < nombre)
+	{
+		xabyab[0] = aff[a][2];
+		xabyab[2] = aff[a][3];
+		++a;
+		xabyab[1] = aff[a][2];
+		xabyab[3] = aff[a][3];
+		++a;
+		ft_drawline(mlx, win, xabyab);
+	}
 }
 
 void ft_display()
@@ -16,19 +39,20 @@ void	ft_parsing(char *file)
 	int		**coo;
 	int		a;
 	int		b;
+	int		nombre;
 
-	a = 0;
+	nombre = 0;
 	tmp = file;
 	while (*file)
 	{
-		if (ft_isdigit(*file) && ++a)
+		if (ft_isdigit(*file) && ++nombre)
 			while (ft_isdigit(*file) && *file)
 				++file;
 		++file;
 	}
-	if (a % 3 || a % 2)
+	if (nombre % 3 || nombre % 2)
 	{
-		ft_putstr("mauvais manque des coordonnees");
+		ft_putstr("mauvais : il manque des coordonnees\n");
 		return ;
 	}
 	coo = (int**)malloc(sizeof(int*) * a / 3);
@@ -49,7 +73,7 @@ void	ft_parsing(char *file)
 		}
 		++file;
 	}
-	ft_display(coo);
+	ft_display(coo, nombre);
 }
 
 int main(int ac, char **av)
