@@ -1,6 +1,10 @@
 #include "libft.h"
 #include <fcntl.h>
 
+void (writing)
+{
+}
+
 void ft_display()
 {
 	ft_putstr("tout semble fonctionner\n");
@@ -22,7 +26,7 @@ void	ft_parsing(char *file)
 				++file;
 		++file;
 	}
-	if (a % 3)
+	if (a % 3 || a % 2)
 	{
 		ft_putstr("mauvais manque des coordonnees");
 		return ;
