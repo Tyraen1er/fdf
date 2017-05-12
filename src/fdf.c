@@ -6,11 +6,40 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/10 06:50:23 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/12 02:23:20 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	zminmax(t_line *line)
+{
+	int		a;
+	int		z[2];
+
+	line = ft_whichline(1);
+	z[0] = line->vector[0][4];
+	z[1] = z[0];
+	while (line)
+	{
+		a = -1;
+		while (++a < line->sizeline)
+		{
+			if (line->vector[a][4] < z[0])
+				z[0] = line->vector[a][4];
+			if (z[1] < line->vector[a][4])
+				z[1] = line->vector[a][4];
+		}
+		line = line->next;
+	}
+	ft_color(0, z);
+	ft_putnbr(ft_color(z[0], NULL));
+	write(1, "\n", 1);
+	ft_putnbr(ft_color(1, NULL));
+	write(1, "\n", 1);
+	ft_putnbr(ft_color(z[1], NULL));
+	write(1, "\n", 1);
+}
 
 int		ft_display(t_line *line)
 {
@@ -20,6 +49,7 @@ int		ft_display(t_line *line)
 
 	if (!line)
 		return (0);
+	zminmax(line);
 	mlx = mlx_init();
 	if (!mlx)
 		exit(3);
@@ -32,7 +62,7 @@ int		ft_display(t_line *line)
 	all[0] = mlx;
 	all[1] = win;
 	all[2] = line;
-	writing(mlx, win, line);
+	writing(all, line, 1);
 	mlx_key_hook(win, my_key_fct, all);
 	mlx_loop(mlx);
 	return (1);
@@ -74,13 +104,12 @@ t_line		*ft_whichline(int l)
 	return (tmp);
 }
 
-void		writing(void *mlx, void *win, t_line *line)
+void		writing(void **all, t_line *line, int color)
 {
 	int		***coo;
-	int		xabyab[5];
+	int		xabyab[6];
 	int		a;
 
-	xabyab[4] = 0xFFFFFF;
 	coo = (int***)malloc(sizeof(int**) * line->line);
 	line = ft_whichline(1);
 	while (line)
@@ -100,22 +129,42 @@ void		writing(void *mlx, void *win, t_line *line)
 		a = 0;
 		while (a < line->sizeline)
 		{
+			xabyab[4] = 0x0;
+			xabyab[5] = 0x0;
+			if (color)
+				xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
 			xabyab[0] = coo[line->line - 1][a][2];
 			xabyab[2] = coo[line->line - 1][a][3];
 			if (line->next && a < line->next->sizeline)
 			{
 				xabyab[1] = coo[line->line][a][2];
 				xabyab[3] = coo[line->line][a][3];
-				ft_drawline(mlx, win, xabyab);
+				if (color)
+					xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
+				ft_drawline(all, xabyab, color);
 			}
 			if (a < line->sizeline - 1)
 			{
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
-				ft_drawline(mlx, win, xabyab);
+				if (color)
+					xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
+				ft_drawline(all, xabyab, color);
 			}
 			++a;
 		}
+		line = line->next;
+	}
+	line = ft_whichline(1);
+	while (line)
+	{
+		a = 0;
+		while (a < line->sizeline)
+		{
+			free(coo[line->line - 1][a]);
+			++a;
+		}
+		free(coo[line->line - 1]);
 		line = line->next;
 	}
 }
@@ -148,7 +197,6 @@ t_line		*ft_convert(char *map)
 			else
 				++a;
 		}
-
 		if (map[a] == '\n' || !map[a])
 		{
 			if (!(tmp->vector = (int**)malloc(sizeof(int*) * tmp->sizeline)))

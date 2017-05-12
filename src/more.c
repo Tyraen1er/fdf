@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/10 07:15:40 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/12 04:28:12 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int		*ft_param(int *vector, int axe, int modif)
 	int		a;
 	int		*ret;
 
-	(void)axe;
-	(void)modif;
 	ret = (vector) ? (int*)malloc(sizeof(int) * 5) : NULL;
 	a = -1;
 	while (vector && ++a < 5)
@@ -59,19 +57,27 @@ int		*ft_param(int *vector, int axe, int modif)
 	Nan je deconne mais l affichage n est plus cohérent avec lui dans les
 	parages...
 */
-//	ret = rotate(ret, (modif == 3) ? axe : 0);
+	ret = rotate(ret, (modif == 3) ? axe : 0);
 	shift(ret, (modif == 2) ? axe : 0);
 	return (ret);
 }
 
+/*
+** 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
+** 69 = + ||| 78 = -
+** 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = * 
+** 8 = c ||| 
+*/
+
 int		my_key_fct(int keycode, void *all)
 {
-	printf("keycode = %d\n", keycode);
+	static int		color = 1;
+
+//	printf("%d\n", keycode);
+	color = (keycode == 8) ? -color : color;
 	if (keycode == 53)
 		exit(3);
-	// 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
-	// 69 = + ||| 78 = -
-	// 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = * 
+	writing(all, ((void**)all)[2], 0);
 	if (keycode == 123 || keycode == 124)
 		ft_param(NULL, (keycode == 123) ? -'x' : 'x', 2);
 	if (keycode == 125 || keycode == 126)
@@ -84,37 +90,43 @@ int		my_key_fct(int keycode, void *all)
 		ft_param(NULL, (keycode == 86) ? 'y': -'y', 3);
 	if (keycode == 75 || keycode == 67)
 		ft_param(NULL, (keycode == 75) ? 'z': -'z', 3);
-	writing(((void**)all)[0], ((void**)all)[1], ((void**)all)[2]);
+	writing(all, ((void**)all)[2], color);
 	return (0);
 }
-
-void    ft_drawline(void *mlx, void *win, int *xabyab)
+/*
+void	delineation(void **all, int *xabyab, int color)
 {
-	int     xav;
-	int     yav;
-	int     x;
-	int     y;
+}
+*/
+void    ft_drawline(void **all, int *xabyab, int color)
+{
+	int		a[4];
 
-	x = xabyab[0];
-	y = xabyab[2];
-	xav = (xabyab[0] < xabyab[1]) ? 1 : -1;
-	yav = (xabyab[2] < xabyab[3]) ? 1 : -1;
+	a[0] = xabyab[0];
+	a[1] = xabyab[2];
+	a[2] = (xabyab[0] < xabyab[1]) ? 1 : -1;
+	a[3] = (xabyab[2] < xabyab[3]) ? 1 : -1;
 	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
-		mlx_pixel_put(mlx, win, x, y, xabyab[4]);
+		mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
+				ft_color(xabyab[4], NULL) : xabyab[4]);
 	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
-		while ((yav == 1 && y < xabyab[3]) || (yav == -1 && y > xabyab[3]))
+		while ((a[3] == 1 && a[1] < xabyab[3]) || (a[3] == -1 && a[1] > xabyab[3]))
 		{
-			if (((xabyab[1] - xabyab[0]) * y) / (xabyab[3] - xabyab[2]) != ((xabyab[1] - xabyab[0]) * (y - 1)) / (xabyab[3] - xabyab[2]))
-				x += xav;
-			mlx_pixel_put(mlx, win, x, y, xabyab[4]);
-			y += yav;
+			if (((xabyab[1] - xabyab[0]) * a[1]) / (xabyab[3] - xabyab[2]) !=
+				((xabyab[1] - xabyab[0]) * (a[1] - 1)) / (xabyab[3] - xabyab[2]))
+				a[0] += a[2];
+			mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
+					ft_color(xabyab[4], NULL) : xabyab[4]);
+			a[1] += a[3];
 		}
 	else
-		while ((xav == 1 && x < xabyab[1]) || (xav == -1 && x > xabyab[1]))
+		while ((a[2] == 1 && a[0] < xabyab[1]) || (a[2] == -1 && a[0] > xabyab[1]))
 		{
-			if (((xabyab[3] - xabyab[2]) * x) / (xabyab[1] - xabyab[0]) != ((xabyab[3] - xabyab[2]) * (x - 1)) / (xabyab[1] - xabyab[0]))
-				y += yav;
-			mlx_pixel_put(mlx, win, x, y, xabyab[4]);
-			x += xav;
+			if (((xabyab[3] - xabyab[2]) * a[0]) / (xabyab[1] - xabyab[0]) !=
+				((xabyab[3] - xabyab[2]) * (a[0] - 1)) / (xabyab[1] - xabyab[0]))
+				a[1] += a[3];
+			mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
+					ft_color(xabyab[4], NULL) : xabyab[4]);
+			a[0] += a[2];
 		}
 }
