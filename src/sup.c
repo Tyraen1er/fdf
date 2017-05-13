@@ -6,26 +6,42 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/12 01:19:43 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/13 06:10:42 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h" 
 
-int		ft_color(int a, int *z)
+int		ft_color(int *xabyab, int *z, int modif)
 {
 	static int	zmin = 0;
 	static int	ratio = 0;
+	static int	a = 0;
+	static int	b = 0;
+	static int	degrade = 0;
 	
 	if (z)
 	{
 		zmin += (z < 0) ? -zmin : 0;
-//		ratio = (0xFF0000 - 0xFF) / (z[1] - z[0]);
 		ratio = 16 / (z[1] - z[0]);
 		return (0);
 	}
-//	return (0xFF + (a - zmin) * ratio);
-	return (0xFF << (a - zmin) * ratio);
+	if (xabyab)
+	{
+		a = (modif == 1) ? 0xFF << (xabyab[4] - zmin) * ratio : xabyab[4];
+		b = (modif == 1) ? 0xFF << (xabyab[5] - zmin) * ratio : xabyab[5];
+		degrade = 0;
+	}
+	if (xabyab && (xabyab[0] != xabyab[1]) && (xabyab[2] != xabyab[3]))
+	{
+		degrade = (abs(xabyab[0] - xabyab[1]) >= abs(xabyab[2] - xabyab[3])) ?
+			abs(a - b) / abs(xabyab[0] - xabyab[1]) : 
+			abs(a - b) / abs(xabyab[2] - xabyab[3]);
+		degrade = (a < b) ? -degrade : degrade;
+		return (0);
+	}
+	a += degrade;
+	return (a);
 }
 
 void	shift(int *vector, int axe)
@@ -74,27 +90,27 @@ void	scaling(int *vector, int axe)
 
 int		*rotate(int *vector, int axe)
 {
-	static double	x = 45;
-	static double	y = 45;
-	static double	z = 45;
+	static double	x = M_PI_4;
+	static double	y = M_PI_4;
+	static double	z = M_PI_4;
 	int			*ret[2];
 	double		*rot;
 
 	ret[0] = NULL;
 	if (axe == 'x' || axe == -'x')
 	{
-		x += (axe == 'x') ? 0.1 : -0.1;
-		x = (x < 0) ? 360 - x : x;
-		x = (360 < x) ? x - 360 : x;
+		x += (axe == 'x') ? M_PI / 16 : -M_PI / 16;
+//		x = (x < 0) ? 2 * M_PI - x : x;
+//		x = (2 * M_PI < x) ? x - 2 * M_PI : x;
 	}
 	rot = (double[11]){3, 3, 1, 0, 0, 0, cos(x), -sin(x), 0, sin(x), cos(x)};
 	if (vector)
 		ret[0] = matrice_multi(rot, vector);
 	if (axe == 'y' || axe == -'y')
 	{
-		y += (axe == 'y') ? 0.1 : -0.1;
-		y = (y < 0) ? 360 - y : y;
-		y = (360 < y) ? y - 360 : y;
+		y += (axe == 'y') ? M_PI / 16 : -M_PI / 16;
+//		y = (y < 0) ? 2 * M_PI - y : y;
+//		y = (2 * M_PI < y) ? y - 2 * M_PI : y;
 	}
 	rot = (double[11]){3, 3, cos(y), 0, sin(y), 0, 1, 0, -sin(y), 0 , cos(y)};
 	if (vector)
@@ -105,9 +121,9 @@ int		*rotate(int *vector, int axe)
 	}
 	if (axe == 'z' || axe == -'z')
 	{
-		z += (axe == 'z') ? 0.1 : -0.1;
-		z= (z < 0) ? 360 - z : z;
-		z = (360 < z) ? z - 360 : z;
+		z += (axe == 'z') ? M_PI / 16 : -M_PI / 16;
+//		z = (z < 0) ? 2 * M_PI - z : z;
+//		z = (2 * M_PI < z) ? z - 2 * M_PI : z;
 	}
 	rot = (double[11]){3, 3, cos(z), -sin(z), 0, sin(z), cos(z), 0, 0, 0, 1};
 	if (vector)

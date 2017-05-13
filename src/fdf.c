@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/12 02:23:20 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/13 05:45:53 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,7 @@ void	zminmax(t_line *line)
 		}
 		line = line->next;
 	}
-	ft_color(0, z);
-	ft_putnbr(ft_color(z[0], NULL));
-	write(1, "\n", 1);
-	ft_putnbr(ft_color(1, NULL));
-	write(1, "\n", 1);
-	ft_putnbr(ft_color(z[1], NULL));
-	write(1, "\n", 1);
+	ft_color(NULL, z, 0);
 }
 
 int		ft_display(t_line *line)
@@ -107,8 +101,18 @@ t_line		*ft_whichline(int l)
 void		writing(void **all, t_line *line, int color)
 {
 	int		***coo;
-	int		xabyab[6];
+	int		xabyab[7];
 	int		a;
+
+
+/*
+** xa
+** xb
+** ya
+** yb
+** za || color a
+** zb || color b
+*/
 
 	coo = (int***)malloc(sizeof(int**) * line->line);
 	line = ft_whichline(1);
@@ -140,7 +144,7 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line][a][2];
 				xabyab[3] = coo[line->line][a][3];
 				if (color)
-					xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
+					xabyab[4] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			if (a < line->sizeline - 1)
@@ -148,7 +152,7 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
 				if (color)
-					xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
+					xabyab[4] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			++a;

@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/12 04:28:12 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/13 05:58:26 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	delineation(void **all, int *xabyab, int color)
 {
 }
 */
-void    ft_drawline(void **all, int *xabyab, int color)
+void    ft_drawline(void **all, int *xabyab, int modif)
 {
 	int		a[4];
 
@@ -106,17 +106,16 @@ void    ft_drawline(void **all, int *xabyab, int color)
 	a[1] = xabyab[2];
 	a[2] = (xabyab[0] < xabyab[1]) ? 1 : -1;
 	a[3] = (xabyab[2] < xabyab[3]) ? 1 : -1;
+	ft_color(xabyab, NULL, modif);
 	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
-		mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
-				ft_color(xabyab[4], NULL) : xabyab[4]);
+		mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
 		while ((a[3] == 1 && a[1] < xabyab[3]) || (a[3] == -1 && a[1] > xabyab[3]))
 		{
 			if (((xabyab[1] - xabyab[0]) * a[1]) / (xabyab[3] - xabyab[2]) !=
 				((xabyab[1] - xabyab[0]) * (a[1] - 1)) / (xabyab[3] - xabyab[2]))
 				a[0] += a[2];
-			mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
-					ft_color(xabyab[4], NULL) : xabyab[4]);
+			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 			a[1] += a[3];
 		}
 	else
@@ -125,8 +124,7 @@ void    ft_drawline(void **all, int *xabyab, int color)
 			if (((xabyab[3] - xabyab[2]) * a[0]) / (xabyab[1] - xabyab[0]) !=
 				((xabyab[3] - xabyab[2]) * (a[0] - 1)) / (xabyab[1] - xabyab[0]))
 				a[1] += a[3];
-			mlx_pixel_put(all[0], all[1], a[0], a[1], (color == 1) ?
-					ft_color(xabyab[4], NULL) : xabyab[4]);
+			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 			a[0] += a[2];
 		}
 }

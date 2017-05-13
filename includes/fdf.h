@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/12 04:23:45 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/13 05:42:54 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct		s_line
 }					t_line;
 
 void	zminmax(t_line *line);
-void	ft_drawline(void **all, int *xabyab, int color);
+void	ft_drawline(void **all, int *xabyab, int modif);
 void	writing(void **all, t_line *line, int color);
 int		my_key_fct(int keycode, void *pdf);
 int		translator(int keycode);
@@ -38,7 +38,7 @@ int		translate(int keycode);
 int		transl(int keycode);
 int		translate_number(int keycode);
 int		ft_atoifdf(char *nb);
-int		ft_color(int a, int *z);
+int		ft_color(int *xabyab, int *z, int modif);
 int		*save_vector(int pos, int sizeline, int z);
 int		*ft_param(int *vector, int axe, int modif);
 int		*rotate(int *vector, int axe);
