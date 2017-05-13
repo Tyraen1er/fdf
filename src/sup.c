@@ -30,7 +30,7 @@ int		ft_color(int *xabyab, int *z, int modif)
 	{
 		a = (modif == 1) ? 0xFF << (xabyab[4] - zmin) * ratio : xabyab[4];
 		b = (modif == 1) ? 0xFF << (xabyab[5] - zmin) * ratio : xabyab[5];
-		if (!(degrade = 0) && (xabyab[0] != xabyab[1]) && (xabyab[2] != xabyab[3]))
+		if (!(degrade = 0) && abs(xabyab[0] - xabyab[1]) != abs(xabyab[2] - xabyab[3]))
 			degrade = (abs(xabyab[0] - xabyab[1]) >= abs(xabyab[2] - xabyab[3])) ?
 				(10 * abs(a - b)) / abs(xabyab[0] - xabyab[1]) : 
 				(10 * abs(a - b)) / abs(xabyab[2] - xabyab[3]);
