@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/13 06:10:42 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/13 07:59:59 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ int		ft_color(int *xabyab, int *z, int modif)
 	{
 		a = (modif == 1) ? 0xFF << (xabyab[4] - zmin) * ratio : xabyab[4];
 		b = (modif == 1) ? 0xFF << (xabyab[5] - zmin) * ratio : xabyab[5];
-		degrade = 0;
-	}
-	if (xabyab && (xabyab[0] != xabyab[1]) && (xabyab[2] != xabyab[3]))
-	{
-		degrade = (abs(xabyab[0] - xabyab[1]) >= abs(xabyab[2] - xabyab[3])) ?
-			abs(a - b) / abs(xabyab[0] - xabyab[1]) : 
-			abs(a - b) / abs(xabyab[2] - xabyab[3]);
-		degrade = (a < b) ? -degrade : degrade;
+		if (!(degrade = 0) && (xabyab[0] != xabyab[1]) && (xabyab[2] != xabyab[3]))
+			degrade = (abs(xabyab[0] - xabyab[1]) >= abs(xabyab[2] - xabyab[3])) ?
+				(10 * abs(a - b)) / abs(xabyab[0] - xabyab[1]) : 
+				(10 * abs(a - b)) / abs(xabyab[2] - xabyab[3]);
+		a *= 10;
+		b *= 10;
+		degrade = (a < b) ? degrade : -degrade;
 		return (0);
 	}
-	a += degrade;
-	return (a);
+	if ((degrade < 0 && b < a) ||(0 < degrade && a < b))
+		a += degrade;
+	return (a / 10);
 }
 
 void	shift(int *vector, int axe)
