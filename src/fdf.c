@@ -144,7 +144,7 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line][a][2];
 				xabyab[3] = coo[line->line][a][3];
 				if (color)
-					xabyab[4] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
+					xabyab[5] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			if (a < line->sizeline - 1)
@@ -152,7 +152,7 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
 				if (color)
-					xabyab[4] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
+					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			++a;
