@@ -6,42 +6,54 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/13 07:59:59 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/16 03:49:13 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h" 
+#include "fdf.h"
+
+/*
+** zmin = a[0]
+** ratio = a[1]
+** couleur1 = a[2]
+** couleur2 = a[3]
+** degrade = a[4]
+** Bon apetit
+**
+** simplification ternaire
+** couleur 1 = A
+** couleur 2 = B
+** [R][V][B]
+** A / Couleur - B / Couleur  + intervale couleur d ecart
+*/
 
 int		ft_color(int *xabyab, int *z, int modif)
 {
-	static int	zmin = 0;
-	static int	ratio = 0;
-	static int	a = 0;
-	static int	b = 0;
-	static int	degrade = 0;
-	
+	static int	a[5] = {0};
+
 	if (z)
 	{
-		zmin += (z < 0) ? -zmin : 0;
-		ratio = 16 / (z[1] - z[0]);
+		a[0] += (z < 0) ? -a[0] : 0;
+		a[1] = 16 / (z[1] - z[0]);
 		return (0);
 	}
 	if (xabyab)
 	{
-		a = (modif == 1) ? 0xFF << (xabyab[4] - zmin) * ratio : xabyab[4];
-		b = (modif == 1) ? 0xFF << (xabyab[5] - zmin) * ratio : xabyab[5];
-		if (!(degrade = 0) && abs(xabyab[0] - xabyab[1]) != abs(xabyab[2] - xabyab[3]))
-			degrade = (abs(xabyab[0] - xabyab[1]) >= abs(xabyab[2] - xabyab[3])) ?
-				(10 * abs(a - b)) / abs(xabyab[0] - xabyab[1]) : 
-				(10 * abs(a - b)) / abs(xabyab[2] - xabyab[3]);
-		a *= 10;
-		b *= 10;
-		degrade = (a < b) ? degrade : -degrade;
+		a[2] = (modif == 1) ? 0xFF << (xabyab[4] - a[0]) * a[1] : xabyab[4];
+		a[3] = (modif == 1) ? 0xFF << (xabyab[5] - a[0]) * a[1] : xabyab[5];
+		if (!(a[4] = 0) && xabyab[0] - xabyab[1])
+		{
+			a[4] = ((a[2] & 0xFF0000 / 0xFFFF + a[2] & 0xFF00 / 0xFF + a[2] & 0xFF) - (a[3] & 0xFF0000 / 0xFFFF + a[3] & 0xFF00 / 0xFF + a[3] & 0xFF) + )
+			a[4] = (100 * ((a[2] & 0xFF && )))
+			a[4] = (100 * (((a[2] & 0xFF0000) ? a[2] / 0xFF00 : 0) - ((a[3] & 0xFF0000) ? a[3] / 0xFF00 : 0) + ((a[2] & 0xFF00) ? a[2] / 0xFF : 0) - ((a[3] & 0xFF00) ? a[3] / 0xFF : 0) + ((a[2] & 0xFF) ? a[2] : 0) - ((a[3] & 0xFF) ? a[3] : 0))) / (abs(xabyab[0] - xabyab[1]));
+		}
+		a[2] *= 100;
+		a[3] *= 100;
+		a[4] = (a[2] < a[3]) ? a[4] : -a[4];
 		return (0);
 	}
-	if ((degrade < 0 && b < a) ||(0 < degrade && a < b))
-		a += degrade;
-	return (a / 10);
+	a[2] += ((0xFF00 <= a[2]) ? a[4] * 0xFF00 : 0) + ((0xFF <= a[2] && a[2] < 0xFF00) ? a[4] * 0xFF : 0) + ((a[2] < 0xFF) ? a[4] : 0);
+	return (a[2] / 100);
 }
 
 void	shift(int *vector, int axe)

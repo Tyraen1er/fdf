@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/13 05:42:54 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/16 06:31:28 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+
+/*
+**	donnée vector :
+**
+**	taille matrice largeur		-> pour matrice multi
+**	taille matice hauteur		-> pour matrice multi
+**	x;
+**	y;
+**	z;
+**	color;
+*/
 
 typedef struct		s_line
 {
@@ -46,15 +57,4 @@ void	shift(int *vector, int axe);
 void	scaling(int *vector, int axe);
 int		*matrice_multi(double *first, int *second);
 
-
-/*
-**	donnée vector :
-**
-**	taille matrice largeur		-> pour matrice multi
-**	taille matice hauteur		-> pour matrice multi
-**	x;
-**	y;
-**	z;
-**	color;
-*/
 #endif
