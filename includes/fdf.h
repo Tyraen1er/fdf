@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 04:15:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/16 06:31:28 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:36:11 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct		s_line
 	struct s_line	*prev;
 }					t_line;
 
+int		***ft_mallocwriting(t_line *line);
+void	ft_freewriting(int ***coo, t_line *line);
 void	zminmax(t_line *line);
 void	ft_drawline(void **all, int *xabyab, int modif);
 void	writing(void **all, t_line *line, int color);

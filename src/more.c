@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/15 09:40:25 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:17:44 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,6 @@ int		*ft_param(int *vector, int axe, int modif)
 	while (vector && ++a < 5)
 		ret[a] = vector[a];
 	scaling(ret, (modif == 1) ? axe : 0);
-/*
-	Cette mechante bestiole contient un segfault, il est donc enfermé pour la
-	securité de tous.
-	Merci de ne pas le libérer !
-	Nan je deconne mais l affichage n est plus cohérent avec lui dans les
-	parages...
-*/
 	ret = rotate(ret, (modif == 3) ? axe : 0);
 	shift(ret, (modif == 2) ? axe : 0);
 	return (ret);
@@ -93,11 +86,7 @@ int		my_key_fct(int keycode, void *all)
 	writing(all, ((void**)all)[2], color);
 	return (0);
 }
-/*
-void	delineation(void **all, int *xabyab, int color)
-{
-}
-*/
+
 void    ft_drawline(void **all, int *xabyab, int modif)
 {
 	int		a[4];

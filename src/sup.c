@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/16 03:49:13 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 06:08:02 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,53 @@
 ** ratio = a[1]
 ** couleur1 = a[2]
 ** couleur2 = a[3]
-** degrade = a[4]
+** degradeR = a[4]
+** degradeV = a[5]
+** degradeB = a[6]
+** couleurR = a[7]
+** couleurV = a[8]
+** couleurB = a[9]
 ** Bon apetit
 **
 ** simplification ternaire
 ** couleur 1 = A
 ** couleur 2 = B
 ** [R][V][B]
-** A / Couleur - B / Couleur  + intervale couleur d ecart
 */
 
-int		ft_color(int *xabyab, int *z, int modif)
+int		ft_color(int *xabyab, int *z, int color)
 {
-	static int	a[5] = {0};
+	static int	a[10] = {0};
 
 	if (z)
 	{
-		a[0] += (z < 0) ? -a[0] : 0;
-		a[1] = 16 / (z[1] - z[0]);
+		a[0] = z[0];
+		if (z[1] != z[0])
+			a[1] = 16 / (z[1] - z[0]);
 		return (0);
 	}
 	if (xabyab)
 	{
-		a[2] = (modif == 1) ? 0xFF << (xabyab[4] - a[0]) * a[1] : xabyab[4];
-		a[3] = (modif == 1) ? 0xFF << (xabyab[5] - a[0]) * a[1] : xabyab[5];
-		if (!(a[4] = 0) && xabyab[0] - xabyab[1])
+		a[2] = (color == 1) ? 0xFF << (xabyab[4] - a[0]) * a[1] : xabyab[4];
+		a[3] = (color == 1) ? 0xFF << (xabyab[5] - a[0]) * a[1] : xabyab[5];
+		printf("couleur 1 : %d\ncouleur 2 : %d\n\n", a[2], a[3]);
+		a[7] = (a[2] & 0xFF0000) >> 16;
+		a[8] = (a[2] & 0xFF00) >> 8;
+		a[9] = a[2] & 0xFF;
+		if (xabyab[0] - xabyab[1])
 		{
-			a[4] = ((a[2] & 0xFF0000 / 0xFFFF + a[2] & 0xFF00 / 0xFF + a[2] & 0xFF) - (a[3] & 0xFF0000 / 0xFFFF + a[3] & 0xFF00 / 0xFF + a[3] & 0xFF) + )
-			a[4] = (100 * ((a[2] & 0xFF && )))
-			a[4] = (100 * (((a[2] & 0xFF0000) ? a[2] / 0xFF00 : 0) - ((a[3] & 0xFF0000) ? a[3] / 0xFF00 : 0) + ((a[2] & 0xFF00) ? a[2] / 0xFF : 0) - ((a[3] & 0xFF00) ? a[3] / 0xFF : 0) + ((a[2] & 0xFF) ? a[2] : 0) - ((a[3] & 0xFF) ? a[3] : 0))) / (abs(xabyab[0] - xabyab[1]));
+			a[4] = (a[7] - ((a[3] & 0xFF0000) >> 16)) / (xabyab[0] - xabyab[1]);
+			a[5] = (a[8] - ((a[3] & 0xFF00) >> 8)) / (xabyab[0] - xabyab[1]);
+			a[6] = (a[9] - a[3] & 0xFF) / (xabyab[0] - xabyab[1]);
 		}
-		a[2] *= 100;
-		a[3] *= 100;
 		a[4] = (a[2] < a[3]) ? a[4] : -a[4];
+		a[5] = (a[2] < a[3]) ? a[5] : -a[5];
+		a[6] = (a[2] < a[3]) ? a[6] : -a[6];
+		a[2] = 0;
 		return (0);
 	}
-	a[2] += ((0xFF00 <= a[2]) ? a[4] * 0xFF00 : 0) + ((0xFF <= a[2] && a[2] < 0xFF00) ? a[4] * 0xFF : 0) + ((a[2] < 0xFF) ? a[4] : 0);
-	return (a[2] / 100);
+	return ((((a[7] + a[4] * a[2]) << 16) & 0xFF0000) | (((a[8] + a[5] * a[2])
+					<< 8) & 0xFF00) | (((a[9] + a[6] * a[2]++)) & 0xFF));
 }
 
 void	shift(int *vector, int axe)
@@ -102,9 +112,12 @@ void	scaling(int *vector, int axe)
 
 int		*rotate(int *vector, int axe)
 {
-	static double	x = M_PI_4;
-	static double	y = M_PI_4;
-	static double	z = M_PI_4;
+//	static double	x = M_PI_4;
+//	static double	y = M_PI_4;
+//	static double	z = M_PI_4;
+	static double	x = 0;
+	static double	y = 0;
+	static double	z = 0;
 	int			*ret[2];
 	double		*rot;
 

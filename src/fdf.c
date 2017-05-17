@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/15 09:40:27 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 06:08:04 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,29 @@ void	zminmax(t_line *line)
 	ft_color(NULL, z, 0);
 }
 
+/*
+**	all[0] = mlx;
+**	all[1] = win;
+**	all[2] = line;
+*/
+
 int		ft_display(t_line *line)
 {
-	void	*mlx;
-	void	*win;
 	void	*all[3];
 
 	if (!line)
 		return (0);
 	zminmax(line);
-	mlx = mlx_init();
-	if (!mlx)
-		exit(3);
-	win = mlx_new_window(mlx, 1800, 1800, "mlx 42");
-	if (!win)
+	all[0] = mlx_init();
+	if (!(all[0] = mlx_init()) ||
+			!(all[1] = mlx_new_window(all[0], 1800, 1800, "mlx 42")))
 		exit(3);
 	line = ft_whichline(1);
 	while (line->next)
 		line = line->next;
-	all[0] = mlx;
-	all[1] = win;
-	all[2] = line;
 	writing(all, line, 1);
-	mlx_key_hook(win, my_key_fct, all);
-	mlx_loop(mlx);
+	mlx_key_hook(all[1], my_key_fct, all);
+	mlx_loop(all[0]);
 	return (1);
 }
 
@@ -98,13 +97,6 @@ t_line		*ft_whichline(int l)
 	return (tmp);
 }
 
-void		writing(void **all, t_line *line, int color)
-{
-	int		***coo;
-	int		xabyab[7];
-	int		a;
-
-
 /*
 ** xa
 ** xb
@@ -114,12 +106,17 @@ void		writing(void **all, t_line *line, int color)
 ** zb || color b
 */
 
+int			***ft_mallocwriting(t_line *line)
+{
+	int	***coo;
+	int	a;
+
 	coo = (int***)malloc(sizeof(int**) * line->line);
 	line = ft_whichline(1);
 	while (line)
 	{
-		coo[line->line - 1] = (int**)malloc(sizeof(int*) * line->sizeline);
 		a = 0;
+		coo[line->line - 1] = (int**)malloc(sizeof(int*) * line->sizeline);
 		while (a < line->sizeline)
 		{
 			coo[line->line - 1][a] = ft_param(line->vector[a], 0, 0);
@@ -127,6 +124,34 @@ void		writing(void **all, t_line *line, int color)
 		}
 		line = line->next;
 	}
+	return (coo);
+}
+
+void		ft_freewriting(int ***coo, t_line *line)
+{
+	int	a;
+
+	line = ft_whichline(1);
+	while (line)
+	{
+		a = 0;
+		while (a < line->sizeline)
+		{
+			free(coo[line->line - 1][a]);
+			++a;
+		}
+		free(coo[line->line - 1]);
+		line = line->next;
+	}
+}
+
+void		writing(void **all, t_line *line, int color)
+{
+	int		***coo;
+	int		xabyab[7];
+	int		a;
+
+	coo = ft_mallocwriting(line);
 	line = ft_whichline(1);
 	while (line)
 	{
@@ -144,33 +169,24 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line][a][2];
 				xabyab[3] = coo[line->line][a][3];
 				if (color)
-					xabyab[5] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
-				ft_drawline(all, xabyab, color);
+					xabyab[5] = 0xFF0000;
+//					xabyab[5] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
+				ft_drawline(all, xabyab, (color == 1) ? color : 0);
 			}
 			if (a < line->sizeline - 1)
 			{
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
 				if (color)
-					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
+					xabyab[5] = 0xFF00;
+//					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			++a;
 		}
 		line = line->next;
 	}
-	line = ft_whichline(1);
-	while (line)
-	{
-		a = 0;
-		while (a < line->sizeline)
-		{
-			free(coo[line->line - 1][a]);
-			++a;
-		}
-		free(coo[line->line - 1]);
-		line = line->next;
-	}
+	ft_freewriting(coo, line);
 }
 
 t_line		*ft_convert(char *map)
