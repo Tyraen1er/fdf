@@ -6,30 +6,30 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 06:08:02 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 07:25:04 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-** zmin = a[0]
-** ratio = a[1]
-** couleur1 = a[2]
-** couleur2 = a[3]
-** degradeR = a[4]
-** degradeV = a[5]
-** degradeB = a[6]
-** couleurR = a[7]
-** couleurV = a[8]
-** couleurB = a[9]
-** Bon apetit
-**
-** simplification ternaire
-** couleur 1 = A
-** couleur 2 = B
-** [R][V][B]
-*/
+ ** zmin = a[0]
+ ** ratio = a[1]
+ ** couleur1 = a[2]
+ ** couleur2 = a[3]
+ ** degradeR = a[4]
+ ** degradeV = a[5]
+ ** degradeB = a[6]
+ ** couleurR = a[7]
+ ** couleurV = a[8]
+ ** couleurB = a[9]
+ ** Bon apetit
+ **
+ ** simplification ternaire
+ ** couleur 1 = A
+ ** couleur 2 = B
+ ** [R][V][B]
+ */
 
 int		ft_color(int *xabyab, int *z, int color)
 {
@@ -56,9 +56,9 @@ int		ft_color(int *xabyab, int *z, int color)
 			a[5] = (a[8] - ((a[3] & 0xFF00) >> 8)) / (xabyab[0] - xabyab[1]);
 			a[6] = (a[9] - a[3] & 0xFF) / (xabyab[0] - xabyab[1]);
 		}
-		a[4] = (a[2] < a[3]) ? a[4] : -a[4];
-		a[5] = (a[2] < a[3]) ? a[5] : -a[5];
-		a[6] = (a[2] < a[3]) ? a[6] : -a[6];
+//		a[4] = (a[2] < a[3]) ? a[4] : -a[4];
+//		a[5] = (a[2] < a[3]) ? a[5] : -a[5];
+//		a[6] = (a[2] < a[3]) ? a[6] : -a[6];
 		a[2] = 0;
 		return (0);
 	}
@@ -74,12 +74,10 @@ void	shift(int *vector, int axe)
 	if (axe == 'x' || axe == -'x')
 	{
 		x += (axe == 'x') ? 120 : -120;
-//		x += (x < 0) ? -x : 0;
 	}
 	if (axe == 'y' || axe == -'y')
 	{
 		y += (axe == 'y') ? 120 : -120;
-//		y += (y < 0) ? -y : 0;
 	}
 	if (vector)
 	{
@@ -112,32 +110,21 @@ void	scaling(int *vector, int axe)
 
 int		*rotate(int *vector, int axe)
 {
-//	static double	x = M_PI_4;
-//	static double	y = M_PI_4;
-//	static double	z = M_PI_4;
-	static double	x = 0;
-	static double	y = 0;
-	static double	z = 0;
-	int			*ret[2];
-	double		*rot;
+	static double	x = M_PI_4;
+	static double	y = M_PI_4;
+	static double	z = M_PI_4;
+	int				*ret[2];
+	double			*rot;
 
 	ret[0] = NULL;
 	if (axe == 'x' || axe == -'x')
-	{
 		x += (axe == 'x') ? M_PI / 16 : -M_PI / 16;
-//		x = (x < 0) ? 2 * M_PI - x : x;
-//		x = (2 * M_PI < x) ? x - 2 * M_PI : x;
-	}
 	rot = (double[11]){3, 3, 1, 0, 0, 0, cos(x), -sin(x), 0, sin(x), cos(x)};
 	if (vector)
 		ret[0] = matrice_multi(rot, vector);
 	if (axe == 'y' || axe == -'y')
-	{
 		y += (axe == 'y') ? M_PI / 16 : -M_PI / 16;
-//		y = (y < 0) ? 2 * M_PI - y : y;
-//		y = (2 * M_PI < y) ? y - 2 * M_PI : y;
-	}
-	rot = (double[11]){3, 3, cos(y), 0, sin(y), 0, 1, 0, -sin(y), 0 , cos(y)};
+	rot = (double[11]){3, 3, cos(y), 0, sin(y), 0, 1, 0, -sin(y), 0, cos(y)};
 	if (vector)
 	{
 		ret[1] = ret[0];
@@ -145,11 +132,7 @@ int		*rotate(int *vector, int axe)
 		ft_memdel((void**)&ret[1]);
 	}
 	if (axe == 'z' || axe == -'z')
-	{
 		z += (axe == 'z') ? M_PI / 16 : -M_PI / 16;
-//		z = (z < 0) ? 2 * M_PI - z : z;
-//		z = (2 * M_PI < z) ? z - 2 * M_PI : z;
-	}
 	rot = (double[11]){3, 3, cos(z), -sin(z), 0, sin(z), cos(z), 0, 0, 0, 1};
 	if (vector)
 	{

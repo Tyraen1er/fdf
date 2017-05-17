@@ -6,15 +6,15 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 05:17:44 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 07:26:10 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-** Ne fonctionne que pour ce programme precis
-*/
+ ** Ne fonctionne que pour ce programme precis
+ */
 
 int		ft_atoifdf(char *nb)
 {
@@ -56,17 +56,16 @@ int		*ft_param(int *vector, int axe, int modif)
 }
 
 /*
-** 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
-** 69 = + ||| 78 = -
-** 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = * 
-** 8 = c ||| 
-*/
+ ** 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
+ ** 69 = + ||| 78 = -
+ ** 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = *
+ ** 8 = c |||
+ */
 
 int		my_key_fct(int keycode, void *all)
 {
 	static int		color = 1;
 
-//	printf("%d\n", keycode);
 	color = (keycode == 8) ? -color : color;
 	if (keycode == 53)
 		exit(3);
@@ -76,42 +75,44 @@ int		my_key_fct(int keycode, void *all)
 	if (keycode == 125 || keycode == 126)
 		ft_param(NULL, (keycode == 126) ? -'y' : 'y', 2);
 	if (keycode == 69 || keycode == 78)
-		ft_param(NULL, (keycode == 69) ? '+' : '-' , 1);
+		ft_param(NULL, (keycode == 69) ? '+' : '-', 1);
 	if (keycode == 91 || keycode == 84)
-		ft_param(NULL, (keycode == 91) ? 'x': -'x', 3);
+		ft_param(NULL, (keycode == 91) ? 'x' : -'x', 3);
 	if (keycode == 86 || keycode == 88)
-		ft_param(NULL, (keycode == 86) ? 'y': -'y', 3);
+		ft_param(NULL, (keycode == 86) ? 'y' : -'y', 3);
 	if (keycode == 75 || keycode == 67)
-		ft_param(NULL, (keycode == 75) ? 'z': -'z', 3);
+		ft_param(NULL, (keycode == 75) ? 'z' : -'z', 3);
 	writing(all, ((void**)all)[2], color);
 	return (0);
 }
 
-void    ft_drawline(void **all, int *xabyab, int modif)
+void	ft_drawline(void **all, int *xabyab, int modif)
 {
-	int		a[4];
+	int		*a;
 
-	a[0] = xabyab[0];
-	a[1] = xabyab[2];
-	a[2] = (xabyab[0] < xabyab[1]) ? 1 : -1;
-	a[3] = (xabyab[2] < xabyab[3]) ? 1 : -1;
+	a = (int[4]){xabyab[0], xabyab[2], (xabyab[0] < xabyab[1]) ? 1 : -1,
+		(xabyab[2] < xabyab[3]) ? 1 : -1};
 	ft_color(xabyab, NULL, modif);
 	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
 		mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
-		while ((a[3] == 1 && a[1] < xabyab[3]) || (a[3] == -1 && a[1] > xabyab[3]))
+		while ((a[3] == 1 && a[1] < xabyab[3]) ||
+				(a[3] == -1 && a[1] > xabyab[3]))
 		{
 			if (((xabyab[1] - xabyab[0]) * a[1]) / (xabyab[3] - xabyab[2]) !=
-				((xabyab[1] - xabyab[0]) * (a[1] - 1)) / (xabyab[3] - xabyab[2]))
+					((xabyab[1] - xabyab[0]) * (a[1] - 1)) /
+					(xabyab[3] - xabyab[2]))
 				a[0] += a[2];
 			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 			a[1] += a[3];
 		}
 	else
-		while ((a[2] == 1 && a[0] < xabyab[1]) || (a[2] == -1 && a[0] > xabyab[1]))
+		while ((a[2] == 1 && a[0] < xabyab[1]) ||
+				(a[2] == -1 && a[0] > xabyab[1]))
 		{
 			if (((xabyab[3] - xabyab[2]) * a[0]) / (xabyab[1] - xabyab[0]) !=
-				((xabyab[3] - xabyab[2]) * (a[0] - 1)) / (xabyab[1] - xabyab[0]))
+					((xabyab[3] - xabyab[2]) * (a[0] - 1)) /
+					(xabyab[1] - xabyab[0]))
 				a[1] += a[3];
 			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 			a[0] += a[2];

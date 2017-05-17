@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 06:08:04 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/17 07:20:39 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	zminmax(t_line *line)
 }
 
 /*
-**	all[0] = mlx;
-**	all[1] = win;
-**	all[2] = line;
-*/
+ **	all[0] = mlx;
+ **	all[1] = win;
+ **	all[2] = line;
+ */
 
 int		ft_display(t_line *line)
 {
@@ -70,7 +70,7 @@ t_line		*ft_createline(int l)
 	new->sizeline = 0;
 	new->line = l;
 	new->vector = NULL;
-	new->next = NULL;;
+	new->next = NULL;
 	new->prev = NULL;
 	return (new);
 }
@@ -98,13 +98,13 @@ t_line		*ft_whichline(int l)
 }
 
 /*
-** xa
-** xb
-** ya
-** yb
-** za || color a
-** zb || color b
-*/
+ ** xa
+ ** xb
+ ** ya
+ ** yb
+ ** za || color a
+ ** zb || color b
+ */
 
 int			***ft_mallocwriting(t_line *line)
 {
@@ -178,8 +178,8 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
 				if (color)
-					xabyab[5] = 0xFF00;
-//					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
+//					xabyab[5] = 0xFF00;
+					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
 				ft_drawline(all, xabyab, color);
 			}
 			++a;
@@ -257,7 +257,7 @@ t_line		*ft_convert(char *map)
 	return (tmp);
 }
 
-int  main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	int		fd;
 	int		a;
