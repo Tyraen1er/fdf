@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 07:25:04 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/24 15:50:55 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,56 @@ int		ft_color(int *xabyab, int *z, int color)
 	{
 		a[0] = z[0];
 		if (z[1] != z[0])
-			a[1] = 16 / (z[1] - z[0]);
+			a[1] = 16 * 1000 / (z[1] - z[0]);
 		return (0);
 	}
 	if (xabyab)
 	{
-		a[2] = (color == 1) ? 0xFF << (xabyab[4] - a[0]) * a[1] : xabyab[4];
-		a[3] = (color == 1) ? 0xFF << (xabyab[5] - a[0]) * a[1] : xabyab[5];
-		printf("couleur 1 : %d\ncouleur 2 : %d\n\n", a[2], a[3]);
-		a[7] = (a[2] & 0xFF0000) >> 16;
-		a[8] = (a[2] & 0xFF00) >> 8;
-		a[9] = a[2] & 0xFF;
-		if (xabyab[0] - xabyab[1])
+		a[2] = (color == 1) ? 0xFF << (xabyab[5] - a[0]) * (a[1] / 1000) :
+			xabyab[5];
+		a[3] = (color == 1) ? 0xFF << (xabyab[4] - a[0]) * (a[1] / 1000) :
+			xabyab[4];
+		a[4] = (a[2] >> 16) & 0xFF;
+		a[5] = (a[2] >> 8) & 0xFF;
+		a[6] = a[2] & 0xFF;
+		a[7] = (a[3] >> 16) & 0xFF;
+		a[8] = (a[3] >> 8) & 0xFF;
+		a[9] = a[3] & 0xFF;
+		ft_putstr("___________________________________________\n");
+		ft_putstr("a[2] = ");
+		ft_putnbr(a[2]);
+		ft_putstr("\ta[3] = ");
+		ft_putnbr(a[3]);
+		ft_putstr("\n");
+		if (sqrt(pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2)))
 		{
-			a[4] = (a[7] - ((a[3] & 0xFF0000) >> 16)) / (xabyab[0] - xabyab[1]);
-			a[5] = (a[8] - ((a[3] & 0xFF00) >> 8)) / (xabyab[0] - xabyab[1]);
-			a[6] = (a[9] - a[3] & 0xFF) / (xabyab[0] - xabyab[1]);
+			a[7] = (1000 * (a[4] - a[7])) / sqrt(pow((xabyab[0] - xabyab[1]),
+						2) + pow((xabyab[2] - xabyab[3]), 2));
+			a[8] = (1000 * (a[5] - a[8])) / sqrt(pow((xabyab[0] - xabyab[1]),
+						2) + pow((xabyab[2] - xabyab[3]), 2));
+			a[9] = (1000 * (a[6] - a[9])) / sqrt(pow((xabyab[0] - xabyab[1]),
+						2) + pow((xabyab[2] - xabyab[3]), 2));
 		}
-//		a[4] = (a[2] < a[3]) ? a[4] : -a[4];
-//		a[5] = (a[2] < a[3]) ? a[5] : -a[5];
-//		a[6] = (a[2] < a[3]) ? a[6] : -a[6];
-		a[2] = 0;
+		ft_putstr("a[7] = ");
+		ft_putnbr(a[7] / 1000);
+		ft_putstr("\ta[8] = ");
+		ft_putnbr(a[8] / 1000);
+		ft_putstr("\ta[9] = ");
+		ft_putnbr(a[9] / 1000);
+		ft_putstr("\n");
 		return (0);
 	}
-	return ((((a[7] + a[4] * a[2]) << 16) & 0xFF0000) | (((a[8] + a[5] * a[2])
-					<< 8) & 0xFF00) | (((a[9] + a[6] * a[2]++)) & 0xFF));
+	a[4] += (a[7] / 1000);
+	a[5] += (a[8] / 1000);
+	a[6] += (a[9] / 1000);
+	ft_putstr("Rouge = ");
+	ft_putnbr(a[4]);
+	ft_putstr("\nVert = ");
+	ft_putnbr(a[5]);
+	ft_putstr("\nBleu = ");
+	ft_putnbr(a[6]);
+	ft_putstr("\n");
+	return ((a[4] << 16) | (a[5] << 8) | a[6]);
 }
 
 void	shift(int *vector, int axe)

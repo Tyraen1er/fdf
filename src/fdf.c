@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 01:38:18 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 07:20:39 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/24 15:05:55 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void		writing(void **all, t_line *line, int color)
 		a = 0;
 		while (a < line->sizeline)
 		{
-			xabyab[4] = 0x0;
-			xabyab[5] = 0x0;
+			xabyab[4] = 0;
+			xabyab[5] = 0;
 			if (color)
 				xabyab[4] = (color == 1) ? line->vector[a][4] : line->vector[a][5];
 			xabyab[0] = coo[line->line - 1][a][2];
@@ -169,17 +169,15 @@ void		writing(void **all, t_line *line, int color)
 				xabyab[1] = coo[line->line][a][2];
 				xabyab[3] = coo[line->line][a][3];
 				if (color)
-					xabyab[5] = 0xFF0000;
-//					xabyab[5] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
-				ft_drawline(all, xabyab, (color == 1) ? color : 0);
+					xabyab[5] = (color == 1) ? line->next->vector[a][4] : line->next->vector[a][5];
+				ft_drawline(all, xabyab, color);
 			}
 			if (a < line->sizeline - 1)
 			{
 				xabyab[1] = coo[line->line - 1][a + 1][2];
 				xabyab[3] = coo[line->line - 1][a + 1][3];
 				if (color)
-//					xabyab[5] = 0xFF00;
-					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a][5];
+					xabyab[5] = (color == 1) ? line->vector[a + 1][4] : line->vector[a + 1][5];
 				ft_drawline(all, xabyab, color);
 			}
 			++a;

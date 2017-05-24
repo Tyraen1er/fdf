@@ -6,7 +6,7 @@
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 02:51:07 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/17 07:26:10 by eferrand         ###   ########.fr       */
+/*   Updated: 2017/05/24 13:59:29 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ int		ft_atoifdf(char *nb)
 
 	ret = 0;
 	b = 0;
-	a = ft_strlen(nb);
+	a = 0;
 	if (nb[b] != '0' || nb[b + 1] != 'x')
 		return (atoi(nb));
+	nb += 2;
+	while (nb[a] != ' ' && nb[a] != '\t' && nb[a] != '\n' && nb[a] && nb[a] != ',')
+		++a;
 	while (a--)
 	{
 		if ('0' <= nb[a] && nb[a] <= '9')
@@ -40,7 +43,7 @@ int		ft_atoifdf(char *nb)
 	return (ret);
 }
 
-int		*ft_param(int *vector, int axe, int modif)
+int		*ft_param(int *vector, int axe, int color)
 {
 	int		a;
 	int		*ret;
@@ -49,9 +52,9 @@ int		*ft_param(int *vector, int axe, int modif)
 	a = -1;
 	while (vector && ++a < 5)
 		ret[a] = vector[a];
-	scaling(ret, (modif == 1) ? axe : 0);
-	ret = rotate(ret, (modif == 3) ? axe : 0);
-	shift(ret, (modif == 2) ? axe : 0);
+	scaling(ret, (color == 1) ? axe : 0);
+	ret = rotate(ret, (color == 3) ? axe : 0);
+	shift(ret, (color == 2) ? axe : 0);
 	return (ret);
 }
 
@@ -65,11 +68,13 @@ int		*ft_param(int *vector, int axe, int modif)
 int		my_key_fct(int keycode, void *all)
 {
 	static int		color = 1;
+	static int		erase = 1;
 
 	color = (keycode == 8) ? -color : color;
 	if (keycode == 53)
 		exit(3);
-	writing(all, ((void**)all)[2], 0);
+	if ((keycode == 117 && (erase = -erase)) || 0 < erase)
+		writing(all, ((void**)all)[2], 0);
 	if (keycode == 123 || keycode == 124)
 		ft_param(NULL, (keycode == 123) ? -'x' : 'x', 2);
 	if (keycode == 125 || keycode == 126)
@@ -86,18 +91,18 @@ int		my_key_fct(int keycode, void *all)
 	return (0);
 }
 
-void	ft_drawline(void **all, int *xabyab, int modif)
+void	ft_drawline(void **all, int *xabyab, int color)
 {
 	int		*a;
 
 	a = (int[4]){xabyab[0], xabyab[2], (xabyab[0] < xabyab[1]) ? 1 : -1,
 		(xabyab[2] < xabyab[3]) ? 1 : -1};
-	ft_color(xabyab, NULL, modif);
+	ft_color(xabyab, NULL, color);
 	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
 		mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
 	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
 		while ((a[3] == 1 && a[1] < xabyab[3]) ||
-				(a[3] == -1 && a[1] > xabyab[3]))
+				(a[3] == -1 && xabyab[3] < a[1]))
 		{
 			if (((xabyab[1] - xabyab[0]) * a[1]) / (xabyab[3] - xabyab[2]) !=
 					((xabyab[1] - xabyab[0]) * (a[1] - 1)) /
@@ -108,7 +113,7 @@ void	ft_drawline(void **all, int *xabyab, int modif)
 		}
 	else
 		while ((a[2] == 1 && a[0] < xabyab[1]) ||
-				(a[2] == -1 && a[0] > xabyab[1]))
+				(a[2] == -1 && xabyab[1] < a[0]))
 		{
 			if (((xabyab[3] - xabyab[2]) * a[0]) / (xabyab[1] - xabyab[0]) !=
 					((xabyab[3] - xabyab[2]) * (a[0] - 1)) /
