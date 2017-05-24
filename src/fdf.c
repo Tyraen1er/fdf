@@ -48,15 +48,15 @@ int		ft_display(t_line *line)
 	if (!line)
 		return (0);
 	zminmax(line);
-//	if (!(all[0] = mlx_init()) ||
-//			!(all[1] = mlx_new_window(all[0], 1800, 1800, "mlx 42")))
-//		exit(3);
+	if (!(all[0] = mlx_init()) ||
+			!(all[1] = mlx_new_window(all[0], 1800, 1800, "mlx 42")))
+		exit(3);
 	line = ft_whichline(1);
 	while (line->next)
 		line = line->next;
 	writing(all, line, 1);
-//	mlx_key_hook(all[1], my_key_fct, all);
-//	mlx_loop(all[0]);
+	mlx_key_hook(all[1], my_key_fct, all);
+	mlx_loop(all[0]);
 	return (1);
 }
 
