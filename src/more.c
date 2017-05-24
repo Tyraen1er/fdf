@@ -99,7 +99,8 @@ void	ft_drawline(void **all, int *xabyab, int color)
 		(xabyab[2] < xabyab[3]) ? 1 : -1};
 	ft_color(xabyab, NULL, color);
 	if (!(xabyab[1] - xabyab[0]) && !(xabyab[3] - xabyab[2]))
-		mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+//		mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+		;
 	else if (abs(xabyab[0] - xabyab[1]) < abs(xabyab[2] - xabyab[3]))
 		while ((a[3] == 1 && a[1] < xabyab[3]) ||
 				(a[3] == -1 && xabyab[3] < a[1]))
@@ -108,7 +109,8 @@ void	ft_drawline(void **all, int *xabyab, int color)
 					((xabyab[1] - xabyab[0]) * (a[1] - 1)) /
 					(xabyab[3] - xabyab[2]))
 				a[0] += a[2];
-			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+//			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+			ft_color(NULL, NULL, 0);
 			a[1] += a[3];
 		}
 	else
@@ -119,7 +121,8 @@ void	ft_drawline(void **all, int *xabyab, int color)
 					((xabyab[3] - xabyab[2]) * (a[0] - 1)) /
 					(xabyab[1] - xabyab[0]))
 				a[1] += a[3];
-			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+//			mlx_pixel_put(all[0], all[1], a[0], a[1], ft_color(NULL, NULL, 0));
+			ft_color(NULL, NULL, 0);
 			a[0] += a[2];
 		}
 }

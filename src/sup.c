@@ -56,12 +56,25 @@ int		ft_color(int *xabyab, int *z, int color)
 		a[9] = a[3] & 0xFF;
 		ft_putstr("___________________________________________\n");
 		ft_putstr("a[2] = ");
-		ft_putnbr(a[2]);
-		ft_putstr("\ta[3] = ");
-		ft_putnbr(a[3]);
+		ft_putnbr(a[4]);
+		write(1, "\t", 1);
+		ft_putnbr(a[5]);
+		write(1, "\t", 1);
+		ft_putnbr(a[6]);
+		write(1, "\n", 1);
+		ft_putstr("a[3] = ");
+		ft_putnbr(a[7]);
+		write(1, "\t", 1);
+		ft_putnbr(a[8]);
+		write(1, "\t", 1);
+		ft_putnbr(a[9]);
 		ft_putstr("\n");
-		if (sqrt(pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2)))
+		if (pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2))
 		{
+			ft_putstr("coucou\t");
+			ft_putnbr(sqrt(pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2)));
+		ft_putstr("\n");
+			
 			a[7] = (1000 * (a[4] - a[7])) / sqrt(pow((xabyab[0] - xabyab[1]),
 						2) + pow((xabyab[2] - xabyab[3]), 2));
 			a[8] = (1000 * (a[5] - a[8])) / sqrt(pow((xabyab[0] - xabyab[1]),
@@ -69,18 +82,21 @@ int		ft_color(int *xabyab, int *z, int color)
 			a[9] = (1000 * (a[6] - a[9])) / sqrt(pow((xabyab[0] - xabyab[1]),
 						2) + pow((xabyab[2] - xabyab[3]), 2));
 		}
+	a[4] *= 1000;
+	a[5] *= 1000;
+	a[6] *= 1000;
 		ft_putstr("a[7] = ");
-		ft_putnbr(a[7] / 1000);
+		ft_putnbr(a[7]);
 		ft_putstr("\ta[8] = ");
-		ft_putnbr(a[8] / 1000);
+		ft_putnbr(a[8]);
 		ft_putstr("\ta[9] = ");
-		ft_putnbr(a[9] / 1000);
+		ft_putnbr(a[9]);
 		ft_putstr("\n");
 		return (0);
 	}
-	a[4] += (a[7] / 1000);
-	a[5] += (a[8] / 1000);
-	a[6] += (a[9] / 1000);
+	a[4] -= a[7];
+	a[5] -= a[8];
+	a[6] -= a[9];
 	ft_putstr("Rouge = ");
 	ft_putnbr(a[4]);
 	ft_putstr("\nVert = ");
@@ -88,7 +104,7 @@ int		ft_color(int *xabyab, int *z, int color)
 	ft_putstr("\nBleu = ");
 	ft_putnbr(a[6]);
 	ft_putstr("\n");
-	return ((a[4] << 16) | (a[5] << 8) | a[6]);
+	return (((a[4] / 1000) << 16) | ((a[5] / 1000) << 8) | (a[6]) / 1000);
 }
 
 void	shift(int *vector, int axe)
