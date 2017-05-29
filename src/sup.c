@@ -5,204 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eferrand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/30 23:23:31 by eferrand          #+#    #+#             */
-/*   Updated: 2017/05/24 15:50:55 by eferrand         ###   ########.fr       */
+/*   Created: 2017/05/29 04:03:37 by eferrand          #+#    #+#             */
+/*   Updated: 2017/05/29 04:03:38 by eferrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
- ** zmin = a[0]
- ** ratio = a[1]
- ** couleur1 = a[2]
- ** couleur2 = a[3]
- ** degradeR = a[4]
- ** degradeV = a[5]
- ** degradeB = a[6]
- ** couleurR = a[7]
- ** couleurV = a[8]
- ** couleurB = a[9]
- ** Bon apetit
- **
- ** simplification ternaire
- ** couleur 1 = A
- ** couleur 2 = B
- ** [R][V][B]
- */
+** Ne fonctionne que pour ce programme precis
+*/
 
-int		ft_color(int *xabyab, int *z, int color)
+int		ft_atoifdf(char *nb)
 {
-	static int	a[10] = {0};
+	int		ret;
+	int		a;
+	int		b;
 
-	if (z)
+	ret = 0;
+	b = 0;
+	a = 0;
+	if (nb[b] != '0' || nb[b + 1] != 'x')
+		return (atoi(nb));
+	nb += 2;
+	while (nb[a] != ' ' && nb[a] != '\t' && nb[a] != '\n' && nb[a] &&
+			nb[a] != ',')
+		++a;
+	while (a--)
 	{
-		a[0] = z[0];
-		if (z[1] != z[0])
-			a[1] = 16 * 1000 / (z[1] - z[0]);
-		return (0);
+		if ('0' <= nb[a] && nb[a] <= '9')
+			ret += (nb[a] - '0') << (b * 4);
+		if ('a' <= nb[a] && nb[a] <= 'f')
+			ret += (nb[a] - 'a' + 10) << (b * 4);
+		if ('A' <= nb[a] && nb[a] <= 'F')
+			ret += (nb[a] - 'A' + 10) << (b * 4);
+		++b;
 	}
-	if (xabyab)
-	{
-		a[2] = (color == 1) ? 0xFF << (xabyab[5] - a[0]) * (a[1] / 1000) :
-			xabyab[5];
-		a[3] = (color == 1) ? 0xFF << (xabyab[4] - a[0]) * (a[1] / 1000) :
-			xabyab[4];
-		a[4] = (a[2] >> 16) & 0xFF;
-		a[5] = (a[2] >> 8) & 0xFF;
-		a[6] = a[2] & 0xFF;
-		a[7] = (a[3] >> 16) & 0xFF;
-		a[8] = (a[3] >> 8) & 0xFF;
-		a[9] = a[3] & 0xFF;
-		ft_putstr("___________________________________________\n");
-		ft_putstr("a[2] = ");
-		ft_putnbr(a[4]);
-		write(1, "\t", 1);
-		ft_putnbr(a[5]);
-		write(1, "\t", 1);
-		ft_putnbr(a[6]);
-		write(1, "\n", 1);
-		ft_putstr("a[3] = ");
-		ft_putnbr(a[7]);
-		write(1, "\t", 1);
-		ft_putnbr(a[8]);
-		write(1, "\t", 1);
-		ft_putnbr(a[9]);
-		ft_putstr("\n");
-		if (pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2))
-		{
-			ft_putstr("coucou\t");
-			ft_putnbr(sqrt(pow((xabyab[0] - xabyab[1]), 2) + pow((xabyab[2] - xabyab[3]), 2)));
-		ft_putstr("\n");
-			
-			a[7] = (1000 * (a[4] - a[7])) / sqrt(pow((xabyab[0] - xabyab[1]),
-						2) + pow((xabyab[2] - xabyab[3]), 2));
-			a[8] = (1000 * (a[5] - a[8])) / sqrt(pow((xabyab[0] - xabyab[1]),
-						2) + pow((xabyab[2] - xabyab[3]), 2));
-			a[9] = (1000 * (a[6] - a[9])) / sqrt(pow((xabyab[0] - xabyab[1]),
-						2) + pow((xabyab[2] - xabyab[3]), 2));
-		}
-	a[4] *= 1000;
-	a[5] *= 1000;
-	a[6] *= 1000;
-		ft_putstr("a[7] = ");
-		ft_putnbr(a[7]);
-		ft_putstr("\ta[8] = ");
-		ft_putnbr(a[8]);
-		ft_putstr("\ta[9] = ");
-		ft_putnbr(a[9]);
-		ft_putstr("\n");
-		return (0);
-	}
-	a[4] -= a[7];
-	a[5] -= a[8];
-	a[6] -= a[9];
-	ft_putstr("Rouge = ");
-	ft_putnbr(a[4]);
-	ft_putstr("\nVert = ");
-	ft_putnbr(a[5]);
-	ft_putstr("\nBleu = ");
-	ft_putnbr(a[6]);
-	ft_putstr("\n");
-	return (((a[4] / 1000) << 16) | ((a[5] / 1000) << 8) | (a[6]) / 1000);
-}
-
-void	shift(int *vector, int axe)
-{
-	static int	x = 10;
-	static int	y = 10;
-
-	if (axe == 'x' || axe == -'x')
-	{
-		x += (axe == 'x') ? 120 : -120;
-	}
-	if (axe == 'y' || axe == -'y')
-	{
-		y += (axe == 'y') ? 120 : -120;
-	}
-	if (vector)
-	{
-		vector[2] += x;
-		vector[3] += y;
-	}
-}
-
-void	scaling(int *vector, int axe)
-{
-	static int	zoom = 10;
-
-	if (axe == '+' || axe == '-')
-		zoom += (axe == '+') ? 1 : -1;
-	if (!vector)
-		return ;
-	if (0 < zoom)
-	{
-		vector[2] *= zoom;
-		vector[3] *= zoom;
-		vector[4] *= zoom;
-	}
-	else
-	{
-		vector[2] /= -(zoom - 2);
-		vector[3] /= -(zoom - 2);
-		vector[4] /= -(zoom - 2);
-	}
-}
-
-int		*rotate(int *vector, int axe)
-{
-	static double	x = M_PI_4;
-	static double	y = M_PI_4;
-	static double	z = M_PI_4;
-	int				*ret[2];
-	double			*rot;
-
-	ret[0] = NULL;
-	if (axe == 'x' || axe == -'x')
-		x += (axe == 'x') ? M_PI / 16 : -M_PI / 16;
-	rot = (double[11]){3, 3, 1, 0, 0, 0, cos(x), -sin(x), 0, sin(x), cos(x)};
-	if (vector)
-		ret[0] = matrice_multi(rot, vector);
-	if (axe == 'y' || axe == -'y')
-		y += (axe == 'y') ? M_PI / 16 : -M_PI / 16;
-	rot = (double[11]){3, 3, cos(y), 0, sin(y), 0, 1, 0, -sin(y), 0, cos(y)};
-	if (vector)
-	{
-		ret[1] = ret[0];
-		ret[0] = matrice_multi(rot, ret[1]);
-		ft_memdel((void**)&ret[1]);
-	}
-	if (axe == 'z' || axe == -'z')
-		z += (axe == 'z') ? M_PI / 16 : -M_PI / 16;
-	rot = (double[11]){3, 3, cos(z), -sin(z), 0, sin(z), cos(z), 0, 0, 0, 1};
-	if (vector)
-	{
-		ret[1] = ret[0];
-		ret[0] = matrice_multi(rot, ret[0]);
-		ft_memdel((void**)&ret[1]);
-	}
-	return (ret[0]);
-}
-
-int		*matrice_multi(double *fst, int *scd)
-{
-	int	*ret;
-	int	*tmp;
-	int	x;
-	int	y;
-	int	a;
-
-	y = -1;
-	if (fst[0] != (scd[1]))
-		return (NULL);
-	ret = (int*)ft_memalloc(sizeof(int) * ((fst[1] * scd[0] + 2)));
-	ret[0] = scd[0];
-	ret[1] = fst[1];
-	tmp = &ret[2];
-	while (++y < ret[1] && (x = -1))
-		while (++x < ret[0] && (a = -1))
-			while (++a < fst[0])
-				ret[(2 + x + y * scd[0])] +=
-					fst[a + y * (int)fst[0] + 2] * scd[(a * scd[0] + x + 2)];
 	return (ret);
+}
+
+int		*ft_param(int *vector, int axe, int color)
+{
+	int		a;
+	int		*ret;
+
+	ret = (vector) ? (int*)malloc(sizeof(int) * 5) : NULL;
+	a = -1;
+	while (vector && ++a < 5)
+		ret[a] = vector[a];
+	scaling(ret, (color == 1) ? axe : 0);
+	ret = rotate(ret, (color == 3) ? axe : 0);
+	shift(ret, (color == 2) ? axe : 0);
+	return (ret);
+}
+
+/*
+** 123 = gauche ||| 124 = droite ||| 125 = bas ||| 126 = haut
+** 69 = + ||| 78 = -
+** 91 = 8 ||| 84 = 2 ||| 86 = 4 ||| 88 = 6 ||| 75 = / ||| 67 = *
+** 8 = c |||
+*/
+
+int		my_key_fct(int keycode, void *all)
+{
+	static int		color = 1;
+	static int		erase = 1;
+
+	color = (keycode == 8) ? -color : color;
+	if (keycode == 53)
+		exit(3);
+	if ((keycode == 117 && (erase = -erase)) || 0 < erase)
+		writing(all, ((void**)all)[2], 0);
+	if (keycode == 123 || keycode == 124)
+		ft_param(NULL, (keycode == 123) ? -'x' : 'x', 2);
+	if (keycode == 125 || keycode == 126)
+		ft_param(NULL, (keycode == 126) ? -'y' : 'y', 2);
+	if (keycode == 69 || keycode == 78)
+		ft_param(NULL, (keycode == 69) ? '+' : '-', 1);
+	if (keycode == 91 || keycode == 84)
+		ft_param(NULL, (keycode == 91) ? 'x' : -'x', 3);
+	if (keycode == 86 || keycode == 88)
+		ft_param(NULL, (keycode == 86) ? 'y' : -'y', 3);
+	if (keycode == 75 || keycode == 67)
+		ft_param(NULL, (keycode == 75) ? 'z' : -'z', 3);
+	writing(all, ((void**)all)[2], color);
+	return (0);
 }
