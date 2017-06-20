@@ -91,7 +91,6 @@ int		*rotate(int *vector, int axe)
 int		*matrice_multi(double *fst, int *scd)
 {
 	int	*ret;
-	int	*tmp;
 	int	x;
 	int	y;
 	int	a;
@@ -102,7 +101,6 @@ int		*matrice_multi(double *fst, int *scd)
 	ret = (int*)ft_memalloc(sizeof(int) * ((fst[1] * scd[0] + 2)));
 	ret[0] = scd[0];
 	ret[1] = fst[1];
-	tmp = &ret[2];
 	while (++y < ret[1] && (x = -1))
 		while (++x < ret[0] && (a = -1))
 			while (++a < fst[0])

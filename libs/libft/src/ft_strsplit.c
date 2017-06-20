@@ -93,18 +93,14 @@ static size_t		ft_iteration(const char *str, char c)
 	return (iter);
 }
 
-char				**ft_strsplit(const char *str, char c)
+char				**ft_strsplit(const char *str, char a)
 {
-	size_t	a;
-	size_t	b;
 	char	**ret;
 
-	a = 0;
-	b = 0;
 	if (!str)
 		return (NULL);
-	if (!(ret = (char **)malloc(sizeof(char *) * (ft_iteration(str, c) + 1))))
+	if (!(ret = (char **)malloc(sizeof(char *) * (ft_iteration(str, a) + 1))))
 		return (NULL);
-	ft_malloc_all(ret, str, (ft_iteration(str, c)), c);
+	ft_malloc_all(ret, str, (ft_iteration(str, a)), a);
 	return (ret);
 }

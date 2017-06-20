@@ -34,9 +34,10 @@ LIB_FT			:=	$(LIB_DIR)/libft
 LIB_FT_INC		:=	-I $(LIB_FT)/includes/
 LIB_FT_LINK		:=	-L $(LIB_FT) -l ft
 
-LIB_MLX			:=	$(LIB_DIR)/minilibx_macos
+LIB_MLX			:=	$(LIB_DIR)/minilibx
 LIB_MLX_INC		:=	-I $(LIB_MLX)
-LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -framework OpenGL -framework Appkit
+# LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -framework OpenGL -framework Appkit
+LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -l X11 -l Xext -l m
 
 # our project
 INCLUDES		:=	$(LIB_FT_INC) $(LIB_MLX_INC) -I$(INC_DIR)
@@ -57,7 +58,7 @@ libs:
 
 # linking rule: executable NAME needs OBJ_FILES to link
 $(NAME): $(OBJ_FILES)
-	$(CC) $(LINK) $(OBJ_FILES) -o $(NAME)
+	$(CC) $(OBJ_FILES) -o $(NAME) $(LINK)
 
 # compiler rule: each .o file in OBJ_DIR needs a .c file in SRC_DIR
 # $< -- input file (.c)
