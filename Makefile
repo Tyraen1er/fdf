@@ -6,7 +6,7 @@
 #    By: eferrand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 22:43:33 by eferrand          #+#    #+#              #
-#    Updated: 2017/05/29 04:18:07 by eferrand         ###   ########.fr        #
+#    Updated: 2017/09/22 07:18:45 by eferrand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,7 @@ LIB_FT_LINK		:=	-L $(LIB_FT) -l ft
 
 LIB_MLX			:=	$(LIB_DIR)/minilibx
 LIB_MLX_INC		:=	-I $(LIB_MLX)
-# LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -framework OpenGL -framework Appkit
-LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -l X11 -l Xext -l m
+LIB_MLX_LINK	:=	-L $(LIB_MLX) -l mlx -framework OpenGL -framework Appkit
 
 # our project
 INCLUDES		:=	$(LIB_FT_INC) $(LIB_MLX_INC) -I$(INC_DIR)
