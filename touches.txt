@@ -1,0 +1,3 @@
+translation= haut bas gauche droite			fleches directionnelles
+rotation= 4 8 6 2 / *  						pavé tactile 
+couleur= c
